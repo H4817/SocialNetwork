@@ -16,9 +16,11 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new Signup();
-        if (isset($_POST['Signup'])) {
+        if (isset($_POST['Signup']))
+        {
             $model->attributes = Yii::$app->request->post('Signup');
-            if ($model->validate() && $model->signup()) {
+            if ($model->validate() && $model->signup())
+            {
                 return $this->goHome();
             }
         }
