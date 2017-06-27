@@ -11,4 +11,9 @@ class User extends ActiveRecord
     {
         $this->password = Yii::$app->getSecurity()->generatePasswordHash($password);
     }
+
+    public function validatePassword($password)
+    {
+        return (Yii::$app->getSecurity()->validatePassword($password, $this->password));
+    }
 }

@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 
 class Login extends Model
@@ -21,10 +20,18 @@ class Login extends Model
 
     public function validatePassword($attribute, $params)
     {
-        $user = User::findOne(['email' => $this->email]);
-        if (!$user || !(Yii::$app->getSecurity()->validatePassword($this->password, $user->password)))
+        if (!$this->hasErrors())
         {
-            $this->addError($attribute, 'incorrect user name or password');
+            $user = $this->getUser();
+            if (!$user || !$user->validatePassword($this->password))
+            {
+                $this->addError($attribute, 'incorrect user name or password');
+            }
         }
+    }
+
+    public function getUser()
+    {
+        return User::findOne(['email' => $this->email]);
     }
 }
