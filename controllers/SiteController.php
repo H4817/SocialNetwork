@@ -16,6 +16,10 @@ class SiteController extends Controller
 
     public function actionSignup()
     {
+        if (!Yii::$app->user->isGuest)
+        {
+            return $this->goHome();
+        }
         $model = new Signup();
         if (isset($_POST['Signup']))
         {
@@ -54,5 +58,6 @@ class SiteController extends Controller
            Yii::$app->user->logout();
            return $this->redirect(['login']);
         }
+        return $this->goHome();
     }
 }
