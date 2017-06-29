@@ -18,6 +18,8 @@ class User extends ActiveRecord implements IdentityInterface
         return (Yii::$app->getSecurity()->validatePassword($password, $this->password));
     }
 
+    public static function tableName() { return 'user'; }
+
     public static function findIdentity($id) { return self::findOne($id); }
 
     public static function findIdentityByAccessToken($token, $type = null) { }
