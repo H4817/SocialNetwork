@@ -40,7 +40,7 @@ $config = [
         ],
         'db' => $db,
 
-/*        'urlManager' => [
+        'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
@@ -48,7 +48,7 @@ $config = [
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>'
             ],
-        ],*/
+        ],
 
     ],
     'params' => $params,
