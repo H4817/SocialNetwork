@@ -28,16 +28,17 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'Social Network',
+        'brandLabel' => 'Admin',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top nav-blue-color',
+            'class' => 'navbar-inverse navbar-fixed-top',
+            'style' => 'color: green;',
         ],
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'Home', 'url' => ['admin/default/index']],
             ['label' => 'Signup', 'url' => ['/site/signup'], 'visible' => Yii::$app->user->isGuest],
             Yii::$app->user->isGuest ? (
             ['label' => 'Login', 'url' => ['/site/login']]
@@ -76,3 +77,4 @@ AppAsset::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
+
