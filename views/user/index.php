@@ -1,35 +1,7 @@
-<?php
-
-use yii\helpers\Html;
-use yii\grid\GridView;
-
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\UserSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
-$this->title = 'Users';
-$this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="user-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'email:email',
-            'password',
-            'name',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-</div>
+<?php if (count($users)): ?>
+    <?php foreach ($users as $user): ?>
+        <div class="well">
+            <h3><?= $user->name ?></h3>
+        </div>
+    <?php endforeach ?>
+<?php endif ?>
