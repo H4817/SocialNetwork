@@ -8,9 +8,24 @@ use yii\web\IdentityInterface;
 
 class User extends ActiveRecord implements IdentityInterface
 {
+    /*    public function rules()
+        {
+            return [
+                [['name', 'email', 'password'], 'required'],
+                ['name', 'string', 'min' => 2, 'max' => 20],
+                ['email', 'email'],
+                ['password', 'string', 'min' => 2, 'max' => 20]
+            ];
+        }*/
+
+    public function generatePasswordHash($password)
+    {
+        return Yii::$app->getSecurity()->generatePasswordHash($password);
+    }
+
     public function setPassword($password)
     {
-        $this->password = Yii::$app->getSecurity()->generatePasswordHash($password);
+        $this->password = $this->generatePasswordHash($password);
     }
 
     public function validatePassword($password)

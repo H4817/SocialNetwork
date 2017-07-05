@@ -21,7 +21,7 @@ class SiteController extends Controller
             return $this->goHome();
         }
         $model = new Signup();
-        if (isset($_POST['Signup']))
+        if (Yii::$app->request->post('Signup'))
         {
             $model->attributes = Yii::$app->request->post('Signup');
             if ($model->validate() && $model->signup())
