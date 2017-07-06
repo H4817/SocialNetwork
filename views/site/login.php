@@ -2,6 +2,7 @@
 
 <?php
 use \yii\widgets\ActiveForm;
+use yii\helpers\Html;
 
 ?>
 
@@ -20,3 +21,5 @@ $form = ActiveForm::begin(['class' => 'form-horizontal']);
 <?php
 ActiveForm::end();
 ?>
+<a href="send-email">Forgot the password?</a>
+

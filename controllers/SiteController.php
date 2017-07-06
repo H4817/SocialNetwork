@@ -6,6 +6,8 @@ use Yii;
 use yii\web\Controller;
 use app\models\Signup;
 use app\models\Login;
+use app\models\SendEmailForm;
+use app\models\ResetPasswordForm;
 
 class SiteController extends Controller
 {
@@ -60,4 +62,47 @@ class SiteController extends Controller
         }
         return $this->goHome();
     }
+
+    public function actionSendEmail()
+    {
+        $model = new SendEmailForm();
+
+        if ($model->load(Yii::$app->request->post()))
+        {
+            if ($model->validate())
+            {
+                if ($model->sendEmail())
+                {
+                    Yii::$app->getSession()->setFlash('warning', 'Check your email');
+                    return $this->goHome();
+                } else
+                {
+                    Yii::$app->getSession()->setFlash('error', 'Cannot change the password');
+                }
+            }
+        }
+
+        return $this->render('sendEmail', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionResetPassword()
+    {
+        $model = new ResetPasswordForm();
+
+        if ($model->load(Yii::$app->request->post()))
+        {
+            if ($model->validate())
+            {
+                // form inputs are valid, do something here
+                return;
+            }
+        }
+
+        return $this->render('resetPassword', [
+            'model' => $model,
+        ]);
+    }
+
 }

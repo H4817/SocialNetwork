@@ -45,8 +45,8 @@ class SendEmailForm extends Model
             $model = new PasswordRecovery($user->getAttribute('id'));
             if ($model->save())
             {
-                return Yii::$app->mailer->compose('resetPassword', ['user' => $user, 'model' => $model])
-                    ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' (отправлено роботом) '])
+                return Yii::$app->mailer->compose('layouts/resetPasswordEmail', ['user' => $user, 'model' => $model])
+                    ->setFrom('from@domain.com')
                     ->setTo($this->email)
                     ->setSubject('Сброс пароля для ' . Yii::$app->name)
                     ->send();
