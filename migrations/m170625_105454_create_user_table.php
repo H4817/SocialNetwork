@@ -13,9 +13,9 @@ class m170625_105454_create_user_table extends Migration
     public function up()
     {
         $this->createTable('user', [
-            'id' => $this->primaryKey(),
+            'userId' => $this->primaryKey(),
             'email' => $this->string()->defaultValue(null),
-            'password' => $this->string(),
+            'passwordHash' => $this->string(),
             'name' => $this->string(),
         ]);
     }
