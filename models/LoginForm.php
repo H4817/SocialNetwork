@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\database\User;
 use yii\base\Model;
 
 class LoginForm extends Model

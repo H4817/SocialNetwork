@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\database\User;
 use yii\base\Model;
 
 class SignupForm extends Model
@@ -16,7 +17,7 @@ class SignupForm extends Model
             [['name', 'email', 'password'], 'required'],
             ['name', 'string', 'min' => 2, 'max' => 20],
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => 'app\models\User'],
+            ['email', 'unique', 'targetClass' => 'app\models\database\User'],
             ['password', 'string', 'min' => 2, 'max' => 10]
         ];
     }

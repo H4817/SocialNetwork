@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\User;
+use app\models\database\User;
 use Yii;
 use yii\web\Controller;
 

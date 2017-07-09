@@ -1,12 +1,11 @@
 <?php
 
-namespace app\models;
+namespace app\models\database;
 
 use Yii;
-use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
-class User extends ActiveRecord implements IdentityInterface
+class User extends BaseUser implements IdentityInterface
 {
     /*    public function rules()
         {

@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\models\database\PasswordRecovery;
+use app\models\database\User;
 use Yii;
 use yii\base\Model;
 
