@@ -4,8 +4,8 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
-use app\models\Signup;
-use app\models\Login;
+use app\models\SignupForm;
+use app\models\LoginForm;
 use app\models\SendEmailForm;
 use app\models\ResetPasswordForm;
 
@@ -18,16 +18,13 @@ class SiteController extends Controller
 
     public function actionSignup()
     {
-        if (!Yii::$app->user->isGuest)
-        {
+        if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        $model = new Signup();
-        if (Yii::$app->request->post('Signup'))
-        {
-            $model->attributes = Yii::$app->request->post('Signup');
-            if ($model->validate() && $model->signup())
-            {
+        $model = new SignupForm();
+        if (Yii::$app->request->post('SignupForm')) {
+            $model->attributes = Yii::$app->request->post('SignupForm');
+            if ($model->validate() && $model->signup()) {
                 return $this->goHome();
             }
         }
@@ -36,27 +33,23 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest)
-        {
+        if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        $login_model = new Login();
-        if (Yii::$app->request->post('Login'))
-        {
-            $login_model->attributes = Yii::$app->request->post('Login');
-            if ($login_model->validate())
-            {
-                Yii::$app->user->login($login_model->getUser());
+        $loginModel = new LoginForm();
+        if (Yii::$app->request->post('LoginForm')) {
+            $loginModel->attributes = Yii::$app->request->post('LoginForm');
+            if ($loginModel->validate()) {
+                Yii::$app->user->login($loginModel->getUser());
                 return $this->goHome();
             }
         }
-        return $this->render('login', ['login_model' => $login_model]);
+        return $this->render('login', ['loginModel' => $loginModel]);
     }
 
     public function actionLogout()
     {
-        if (!Yii::$app->user->isGuest)
-        {
+        if (!Yii::$app->user->isGuest) {
             Yii::$app->user->logout();
             return $this->redirect(['login']);
         }
@@ -67,16 +60,12 @@ class SiteController extends Controller
     {
         $model = new SendEmailForm();
 
-        if ($model->load(Yii::$app->request->post()))
-        {
-            if ($model->validate())
-            {
-                if ($model->sendEmail())
-                {
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
+                if ($model->sendEmail()) {
                     Yii::$app->getSession()->setFlash('warning', 'Check your email');
                     return $this->goHome();
-                } else
-                {
+                } else {
                     Yii::$app->getSession()->setFlash('error', 'Cannot change the password');
                 }
             }
@@ -91,10 +80,8 @@ class SiteController extends Controller
     {
         $model = new ResetPasswordForm();
 
-        if ($model->load(Yii::$app->request->post()))
-        {
-            if ($model->validate())
-            {
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
                 // form inputs are valid, do something here
                 return;
             }

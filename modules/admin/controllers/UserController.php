@@ -35,8 +35,7 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->isGuest || Yii::$app->user->identity->name != "admin")
-        {
+        if (Yii::$app->user->isGuest || Yii::$app->user->identity->name != "admin") {
             return $this->goHome();
         }
         $searchModel = new UserSearch();

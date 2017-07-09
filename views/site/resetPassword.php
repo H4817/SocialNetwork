@@ -11,11 +11,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-        <?= $form->field($model, 'password') ?>
-    
-        <div class="form-group">
-            <?= Html::submitButton('Change', ['class' => 'btn btn-primary']) ?>
-        </div>
+    <?= $form->field($model, 'password') ?>
+
+    <div class="form-group">
+        <?= Html::submitButton('Change', ['class' => 'btn btn-primary']) ?>
+    </div>
     <?php ActiveForm::end(); ?>
 
 </div><!-- site-resetPassword -->

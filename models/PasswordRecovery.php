@@ -10,11 +10,13 @@ class PasswordRecovery extends ActiveRecord
     public $token;
     public $user_id;
     public $date;
-    function __construct($user_id) {
+
+    function __construct($user_id)
+    {
         parent::__construct();
         $this->token = self::generateSecretKey();
         $this->user_id = $user_id;
-        $this->date =  Yii::$app->getFormatter()->asDatetime(time());
+        $this->date = Yii::$app->getFormatter()->asDatetime(time());
     }
 
     public static function tableName() { return 'password_recovery'; }

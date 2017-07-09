@@ -40,11 +40,9 @@ class SendEmailForm extends Model
                 'email' => $this->email
             ]
         );
-        if ($user)
-        {
-            $model = new PasswordRecovery($user->getAttribute('id'));
-            if ($model->save())
-            {
+        if (!empty($user)) {
+            $model = new PasswordRecovery($user->id);
+            if ($model->save()) {
                 return Yii::$app->mailer->compose('layouts/resetPasswordEmail', ['user' => $user, 'model' => $model])
                     ->setFrom('from@domain.com')
                     ->setTo($this->email)

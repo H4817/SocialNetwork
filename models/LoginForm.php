@@ -4,7 +4,7 @@ namespace app\models;
 
 use yii\base\Model;
 
-class Login extends Model
+class LoginForm extends Model
 {
     public $email;
     public $password;
@@ -20,11 +20,9 @@ class Login extends Model
 
     public function validatePassword($attribute, $params)
     {
-        if (!$this->hasErrors())
-        {
+        if (!$this->hasErrors()) {
             $user = $this->getUser();
-            if (!$user || !$user->validatePassword($this->password))
-            {
+            if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'incorrect user name or password');
             }
         }

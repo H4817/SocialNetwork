@@ -41,7 +41,7 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/admin/default/index']],
             ['label' => 'Users', 'url' => ['/admin/user']],
 //            ['label' => 'Signup', 'url' => ['/site/signup'], 'visible' => Yii::$app->user->isGuest],
-           
+
         ],
     ]);
     NavBar::end();
