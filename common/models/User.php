@@ -11,9 +11,9 @@ use yii\web\IdentityInterface;
  * User model
  *
  * @property integer $id
- * @property string $username
+ * @property string $name
  * @property string $passwordHash
- * @property string $password_reset_token
+ * @property string $token
  * @property string $email
  * @property string $auth_key
  * @property integer $updated_at
@@ -48,14 +48,14 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Finds user by username
+     * Finds user by name
      *
-     * @param string $username
+     * @param string $name
      * @return static|null
      */
-    public static function findByUsername($username)
+    public static function findByUsername($name)
     {
-        return static::findOne(['username' => $username]);
+        return static::findOne(['name' => $name]);
     }
 
     /**
@@ -71,7 +71,7 @@ class User extends ActiveRecord implements IdentityInterface
         }
 
         return static::findOne([
-            'password_reset_token' => $token,
+            'token' => $token,
         ]);
     }
 
@@ -150,7 +150,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function generatePasswordResetToken()
     {
-        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+        $this->token = Yii::$app->security->generateRandomString() . '_' . time();
     }
 
     /**
@@ -158,6 +158,6 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function removePasswordResetToken()
     {
-        $this->password_reset_token = null;
+        $this->token = null;
     }
 }
