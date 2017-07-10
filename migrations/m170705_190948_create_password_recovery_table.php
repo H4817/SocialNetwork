@@ -18,7 +18,7 @@ class m170705_190948_create_password_recovery_table extends Migration
             'token' => $this->string(),
             'date' => $this->dateTime()
         ]);
-        $this->addForeignKey('FK-passwordRecovery-userId-user-userId', 'password_recovery', 'user_id', 'user', 'id');
+        $this->addForeignKey('FK-passwordRecovery-userId-user-userId', 'passwordRecovery', 'userId', 'user', 'userId');
     }
 
     /**
