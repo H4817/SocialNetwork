@@ -50,12 +50,12 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Finds user by name
      *
-     * @param string $name
+     * @param string $email
      * @return static|null
      */
-    public static function findByUsername($name)
+    public static function findByEmail($email)
     {
-        return static::findOne(['name' => $name]);
+        return static::findOne(['email' => $email]);
     }
 
     /**
@@ -92,29 +92,11 @@ class User extends ActiveRecord implements IdentityInterface
         return $timestamp + $expire >= time();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getId()
-    {
-        return $this->getPrimaryKey();
-    }
+    public function getId() { return $this->getPrimaryKey(); }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAuthKey()
-    {
-        return $this->auth_key;
-    }
+    public function getAuthKey() { }
 
-    /**
-     * @inheritdoc
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->getAuthKey() === $authKey;
-    }
+    public function validateAuthKey($authKey) { }
 
     /**
      * Validates password
@@ -150,7 +132,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function generatePasswordResetToken()
     {
-        $this->token = Yii::$app->security->generateRandomString() . '_' . time();
+        return Yii::$app->security->generateRandomString() . '_' . time();
     }
 
     /**
