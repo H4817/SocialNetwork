@@ -58,4 +58,21 @@ class PasswordRecovery extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['userId' => 'userId']);
     }
+
+    public function generatePasswordResetToken()
+    {
+        return Yii::$app->security->generateRandomString() . '_' . time();
+    }
+
+    public static function isPasswordResetTokenValid($token)
+    {
+        if (empty($token)) {
+            return false;
+        }
+
+        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
+        return $timestamp + $expire >= time();
+    }
+
 }

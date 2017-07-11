@@ -49,22 +49,29 @@ class PasswordResetRequestForm extends Model
             ]);
             if (!$model)
             {
+                $model = new PasswordRecovery();
+                $model->date = date('Y-m-d H:i:s', time());
+                $model->userId = $user->userId;
+            }
+            $model->token = $model->generatePasswordResetToken();
+            if (!$model->save())
+            {
                 return false;
             }
-            if (!User::isPasswordResetTokenValid($model->token))
-            {
-                $user->generatePasswordResetToken();
-                if (!$user->save())
-                {
-                    return false;
-                }
-            }
+            /*            if (!User::isPasswordResetTokenValid($model->token))
+                        {
+                            $user->generatePasswordResetToken();
+                            if (!$user->save())
+                            {
+                                return false;
+                            }
+                        }*/
 
             return Yii::$app
                 ->mailer
                 ->compose(
                     ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
-                    ['user' => $user]
+                    ['user' => $user, 'model' => $model]
                 )
                 ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
                 ->setTo($this->email)
