@@ -22,7 +22,7 @@ class PasswordRecovery extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'passwordrecovery';
+        return 'passwordRecovery';
     }
 
     /**
