@@ -1,9 +1,8 @@
 <?php
-namespace common\models;
+namespace common\models\database;
 
 use Yii;
 use yii\base\NotSupportedException;
-//use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -19,17 +18,9 @@ use yii\web\IdentityInterface;
  * @property integer $updated_at
  * @property string $password write-only password
  */
-class User extends ActiveRecord implements IdentityInterface
+class User extends BaseUser implements IdentityInterface
 {
 
-
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return '{{%user}}';
-    }
 
     /**
      * @inheritdoc

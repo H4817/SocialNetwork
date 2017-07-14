@@ -3,7 +3,7 @@ namespace frontend\models;
 
 use yii\base\Model;
 use yii\base\InvalidParamException;
-use common\models\User;
+use common\models\database\User;
 
 /**
  * Password reset form
@@ -13,7 +13,7 @@ class ResetPasswordForm extends Model
     public $password;
 
     /**
-     * @var \common\models\User
+     * @var \common\models\database\User
      */
     private $_user;
 
@@ -30,6 +30,7 @@ class ResetPasswordForm extends Model
         if (empty($token) || !is_string($token)) {
             throw new InvalidParamException('Password reset token cannot be blank.');
         }
+        var_dump("findByPass is not implemented"); die();
         $this->_user = User::findByPasswordResetToken($token);
         if (!$this->_user) {
             throw new InvalidParamException('Wrong password reset token.');

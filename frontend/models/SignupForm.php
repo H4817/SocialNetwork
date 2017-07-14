@@ -2,7 +2,7 @@
 namespace frontend\models;
 
 use yii\base\Model;
-use common\models\User;
+use common\models\database\User;
 
 /**
  * Signup form
@@ -22,14 +22,14 @@ class SignupForm extends Model
         return [
             ['name', 'trim'],
             ['name', 'required'],
-            ['name', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This name has already been taken.'],
+            ['name', 'unique', 'targetClass' => '\common\models\database\User', 'message' => 'This name has already been taken.'],
             ['name', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\common\models\database\User', 'message' => 'This email address has already been taken.'],
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],

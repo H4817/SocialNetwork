@@ -2,7 +2,7 @@
 
 namespace frontend\controllers;
 
-use common\models\User;
+use common\models\database\User;
 use yii\web\Controller;
 
 class UserController extends Controller
