@@ -30,7 +30,6 @@ class ResetPasswordForm extends Model
         if (empty($token) || !is_string($token)) {
             throw new InvalidParamException('Password reset token cannot be blank.');
         }
-        var_dump("findByPass is not implemented"); die();
         $this->_user = User::findByPasswordResetToken($token);
         if (!$this->_user) {
             throw new InvalidParamException('Wrong password reset token.');
@@ -58,7 +57,7 @@ class ResetPasswordForm extends Model
     {
         $user = $this->_user;
         $user->setPassword($this->password);
-        $user->removePasswordResetToken();
+//        $user->removePasswordResetToken();
 
         return $user->save(false);
     }

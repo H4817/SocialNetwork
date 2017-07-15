@@ -1,4 +1,5 @@
 <?php
+
 namespace common\models\database;
 
 use Yii;
@@ -79,10 +80,10 @@ class User extends BaseUser implements IdentityInterface
     /**
      * Generates "remember me" authentication key
      */
-/*    public function generateAuthKey()
-    {
-        $this->auth_key = Yii::$app->security->generateRandomString();
-    }*/
+    /*    public function generateAuthKey()
+        {
+            $this->auth_key = Yii::$app->security->generateRandomString();
+        }*/
 
     /**
      * Removes password reset token
@@ -90,5 +91,15 @@ class User extends BaseUser implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->token = null;
+    }
+
+    public static function findByPasswordResetToken($token)
+    {
+        $model = PasswordRecovery::findOne([
+            'token' => $token
+        ]);
+        return User::findOne([
+            'userId' => $model->userId
+        ]);
     }
 }
