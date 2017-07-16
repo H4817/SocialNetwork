@@ -1,7 +1,8 @@
 <?php if (count($users)): ?>
     <?php foreach ($users as $user): ?>
         <div class="well">
-            <h3><?= $user->name ?></h3>
+            <a href="<?= Yii::$app->urlManager->createAbsoluteUrl(['user/display',
+                'userId' => $user->id]) ?>"><?= $user->name ?></a>
         </div>
     <?php endforeach ?>
 <?php endif ?>
