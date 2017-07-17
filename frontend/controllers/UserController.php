@@ -8,6 +8,7 @@ use frontend\models\UploadFileForm;
 use Yii;
 use yii\web\Controller;
 use yii\web\UploadedFile;
+use yii\data\Pagination;
 
 class UserController extends Controller
 {
@@ -46,6 +47,15 @@ class UserController extends Controller
 
     public function actionArticles()
     {
-        return $this->render('articles');
+        $allUsers = User::find()->where(['>', 'userId', '0']);
+        $countQuery = clone $allUsers;
+        $pagination = new Pagination([
+            'defaultPageSize' => 1,
+            'totalCount' => $countQuery->count()
+        ]);
+        $models = $allUsers->offset($pagination->offset)
+        ->limit($pagination->limit)
+        ->all();
+        return $this->render('articles', ['models' => $models, 'pagination' => $pagination]);
     }
 }
