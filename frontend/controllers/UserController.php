@@ -32,7 +32,7 @@ class UserController extends Controller
                 }
                 $post->userId = $user->userId;
                 $post->date = date('Y-m-d H:i:s', time());
-                $post->imageReference = $uploadFileForm->path;
+                $post->imageReference = $uploadFileForm->filename;
                 $post->content = Yii::$app->request->post('Post')['content'];
                 if ($post->validate()) {
                     $post->save();
@@ -42,5 +42,10 @@ class UserController extends Controller
         }
         Yii::$app->session->setFlash('error', 'incorrect user id');
         return $this->goHome();
+    }
+
+    public function actionArticles()
+    {
+        return $this->render('articles');
     }
 }

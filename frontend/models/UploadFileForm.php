@@ -13,6 +13,7 @@ class UploadFileForm extends Model
      */
     public $imageFile;
     public $path;
+    public $filename;
 
     public function rules()
     {
@@ -24,8 +25,10 @@ class UploadFileForm extends Model
     public function upload()
     {
         if ($this->validate()) {
-            $this->path =
-                Yii::getAlias('@common') . '/uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+//            $this->filename = $this->imageFile->baseName . '.' . $this->imageFile->extension;
+
+            $this->filename = strtolower(md5(uniqid($this->imageFile->baseName))) . '.' . $this->imageFile->extension;
+            $this->path = Yii::getAlias('@common') . '/uploads/' . $this->filename;
             $this->imageFile->saveAs($this->path);
             return true;
         } else {
