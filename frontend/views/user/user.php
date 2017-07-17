@@ -6,12 +6,9 @@ use yii\bootstrap\ActiveForm;
 ?>
 <?php
 $this->title = $user->name;
-$post = Post::findOne([
+$allPosts = Post::findAll([
     'userId' => $user->userId
 ]);
-if (empty($post)) {
-    $post = new Post();
-}
 ?>
 
 <h1>Create new post</h1>
@@ -20,12 +17,12 @@ if (empty($post)) {
     <div class="col-lg-5">
         <?php $form = ActiveForm::begin(['id' => 'post-form', 'options' => ['enctype' => 'multipart/form-data']]); ?>
 
-        <?= $form->field($post, 'imageReference')->fileInput() ?>
-
-        <?= $form->field($post, 'content')->textarea(['rows' => 6]) ?>
+        <?= $form->field($uploadFileForm, 'imageFile')->fileInput() ?>
+        <?= $form->field($post, 'content')->textarea(['rows' => 6]) ;
+        ?>
 
         <div class="form-group">
-            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'post-button']) ?>
+            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'post-button']); ?>
         </div>
 
         <?php ActiveForm::end(); ?>
