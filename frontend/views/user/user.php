@@ -32,6 +32,16 @@ $this->title = $user->name;
     <div class="well"><?= $concretePost->content ?> <br> <br>
         <img src="../../common/uploads/<?= $concretePost->imageReference ?>" alt="err" class="img-responsive"> <br>
         <?= $concretePost->date ?>
+        <?php if (Yii::$app->user->id === $user->userId): ?>
+            <?= Html::a('Delete', ['post/delete', 'id' => $concretePost->postId], [
+                'class' => 'btn btn-danger',
+                'style' => 'float: right',
+                'data' => [
+                    'confirm' => 'Are you sure you want to delete this item?',
+                    'method' => 'post',
+                ],
+            ]) ?>
+        <?php endif ?>
     </div>
 <?php endforeach; ?>
 <?= LinkPager::widget(['pagination' => $pagination]); ?>
