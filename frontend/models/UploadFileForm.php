@@ -25,8 +25,6 @@ class UploadFileForm extends Model
     public function upload()
     {
         if ($this->validate()) {
-//            $this->filename = $this->imageFile->baseName . '.' . $this->imageFile->extension;
-
             $this->filename = strtolower(md5(uniqid($this->imageFile->baseName))) . '.' . $this->imageFile->extension;
             $this->path = Yii::getAlias('@common') . '/uploads/' . $this->filename;
             $this->imageFile->saveAs($this->path);

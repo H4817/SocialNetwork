@@ -59,4 +59,15 @@ class Post extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['userId' => 'userId']);
     }
+
+    public function _save($userId, $filename, $content) {
+        $this->userId = $userId;
+        $this->date = date('Y-m-d H:i:s', time());
+        $this->imageReference = $filename;
+        $this->content = $content;
+        if ($this->validate()) {
+            return $this->save();
+        }
+        return false;
+    }
 }

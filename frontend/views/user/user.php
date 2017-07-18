@@ -2,6 +2,7 @@
 use common\models\database\Post;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\widgets\LinkPager;
 
 $this->title = $user->name;
 ?>
@@ -27,14 +28,11 @@ $this->title = $user->name;
     </div>
 <?php endif; ?>
 
-<?php
-$allPosts = Post::findAll([
-    'userId' => $user->userId
-]);
-?>
-<?php foreach ($allPosts as $concretePost): ?>
+<?php foreach ($models as $concretePost): ?>
     <div class="well"><?= $concretePost->content ?> <br> <br>
         <img src="../../common/uploads/<?= $concretePost->imageReference ?>" alt="err" class="img-responsive"> <br>
         <?= $concretePost->date ?>
     </div>
 <?php endforeach; ?>
+<?= LinkPager::widget(['pagination' => $pagination]); ?>
+

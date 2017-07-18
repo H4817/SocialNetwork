@@ -20,10 +20,17 @@ class UserController extends Controller
 
     public function actionDisplay($userId)
     {
-        $user = User::findOne([
-            'userId' => $userId
-        ]);
+        $user = User::findOne([ 'userId' => $userId ]);
         if (!empty($user)) {
+            $models = Post::find()->where(['userId' => $user->userId]);
+            $countQuery = clone $models;
+            $pagination = new Pagination([
+                'defaultPageSize' => 1,
+                'totalCount' => $countQuery->count()
+            ]);
+            $models = $models->offset($pagination->offset)
+                ->limit($pagination->limit)
+                ->all();
             $uploadFileForm = new UploadFileForm();
             $post = new Post();
             if (Yii::$app->request->isPost) {
@@ -31,15 +38,9 @@ class UserController extends Controller
                 if (!$uploadFileForm->upload()) {
                     Yii::$app->getSession()->setFlash('error', 'Upload file error');
                 }
-                $post->userId = $user->userId;
-                $post->date = date('Y-m-d H:i:s', time());
-                $post->imageReference = $uploadFileForm->filename;
-                $post->content = Yii::$app->request->post('Post')['content'];
-                if ($post->validate()) {
-                    $post->save();
-                }
+                $post->_save($user->userId, $uploadFileForm->filename, Yii::$app->request->post('Post')['content']);
             }
-            return $this->render('user', ['user' => $user, 'uploadFileForm' => $uploadFileForm, 'post' => $post]);
+            return $this->render('user', ['user' => $user, 'uploadFileForm' => $uploadFileForm, 'post' => $post, 'models' => $models, 'pagination' => $pagination]);
         }
         Yii::$app->session->setFlash('error', 'incorrect user id');
         return $this->goHome();
@@ -54,8 +55,8 @@ class UserController extends Controller
             'totalCount' => $countQuery->count()
         ]);
         $models = $allUsers->offset($pagination->offset)
-        ->limit($pagination->limit)
-        ->all();
+            ->limit($pagination->limit)
+            ->all();
         return $this->render('articles', ['models' => $models, 'pagination' => $pagination]);
     }
 }
