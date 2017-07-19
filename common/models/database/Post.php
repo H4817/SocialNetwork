@@ -15,52 +15,11 @@ use Yii;
  *
  * @property User $user
  */
-class Post extends \yii\db\ActiveRecord
+class Post extends BasePost
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'post';
-    }
 
-    /**
-     * @inheritdoc
-     */
-    public function rules()
+    public function _save($userId, $filename, $content)
     {
-        return [
-            [['userId'], 'integer'],
-            [['date'], 'safe'],
-            [['content', 'imageReference'], 'string', 'max' => 255],
-            [['userId'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userId' => 'userId']],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'postId' => 'Post ID',
-            'userId' => 'User ID',
-            'content' => 'Content',
-            'imageReference' => 'Image Reference',
-            'date' => 'Date',
-        ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['userId' => 'userId']);
-    }
-
-    public function _save($userId, $filename, $content) {
         $this->userId = $userId;
         $this->date = date('Y-m-d H:i:s', time());
         $this->imageReference = $filename;
