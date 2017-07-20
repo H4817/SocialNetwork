@@ -6,6 +6,8 @@ use common\models\database\Post;
 use common\models\database\User;
 use frontend\models\UploadFileForm;
 use Yii;
+use yii\db\ActiveQuery;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\web\UploadedFile;
 use yii\data\Pagination;
@@ -14,13 +16,15 @@ class UserController extends Controller
 {
     public function actionIndex()
     {
-        $users = User::find()->all();
+        $users = (new ActiveQuery(User::class))
+            ->from('user')
+            ->orderBy('userId');
         return $this->render('index', ['users' => $users]);
     }
 
-    public function actionDisplay($userId)
+    public function actionView($userId)
     {
-        $user = User::findOne([ 'userId' => $userId ]);
+        $user = User::findOne(['userId' => $userId]);
         if (!empty($user)) {
             $models = Post::find()->where(['userId' => $user->userId]);
             $countQuery = clone $models;
@@ -40,7 +44,9 @@ class UserController extends Controller
                 }
                 $post->_save($user->userId, $uploadFileForm->filename, Yii::$app->request->post('Post')['content']);
             }
-            return $this->render('user', ['user' => $user, 'uploadFileForm' => $uploadFileForm, 'post' => $post, 'models' => $models, 'pagination' => $pagination]);
+            return $this->render('user',
+                ['user' => $user, 'uploadFileForm' => $uploadFileForm, 'post' => $post, 'models' => $models,
+                    'pagination' => $pagination]);
         }
         Yii::$app->session->setFlash('error', 'incorrect user id');
         return $this->goHome();
