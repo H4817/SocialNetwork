@@ -1,9 +1,19 @@
-<?php if (!empty($users)): ?>
-    <?php foreach ($users->each() as $user): ?>
-        <div class="well">
-            <a href="<?= Yii::$app->urlManager->createAbsoluteUrl(['user/display',
-                'userId' => $user['userId']]) ?>"><?= $user['name'] ?></a>
-        </div>
-    <?php endforeach ?>
-<?php endif ?>
+<?php
+use common\models\database\User;
+use yii\widgets\ListView;
+use yii\data\ActiveDataProvider;
+
+$dataProvider = new ActiveDataProvider([
+    'query' => User::find()->where(['>', 'userId', '0']),
+    'pagination' => [
+        'pageSize' => 10,
+    ],
+]);
+
+echo ListView::widget([
+    'dataProvider' => $dataProvider,
+    'itemView' => '_users',
+]);
+
+
 
