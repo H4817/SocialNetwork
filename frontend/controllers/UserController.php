@@ -6,35 +6,41 @@ use common\models\database\Post;
 use common\models\database\User;
 use frontend\models\UploadFileForm;
 use Yii;
+use yii\data\ActiveDataProvider;
+use yii\data\Pagination;
 use yii\db\ActiveQuery;
-use yii\db\Query;
 use yii\web\Controller;
 use yii\web\UploadedFile;
-use yii\data\Pagination;
 
 class UserController extends Controller
 {
     public function actionIndex()
     {
-        $users = (new ActiveQuery(User::class))
-            ->from('user')
-            ->orderBy('userId');
-        return $this->render('index', ['users' => $users]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => (new ActiveQuery(User::class))
+                ->from('user')
+                ->orderBy('userId'),
+            'pagination' => [
+                'pageSize' => 1,
+            ],
+        ]);
+
+        return $this->render('index', ['dataProvider' => $dataProvider]);
     }
 
     public function actionView($userId)
     {
         $user = User::findOne(['userId' => $userId]);
         if (!empty($user)) {
-            $models = Post::find()->where(['userId' => $user->userId]);
-            $countQuery = clone $models;
-            $pagination = new Pagination([
-                'defaultPageSize' => 1,
-                'totalCount' => $countQuery->count()
+            $dataProvider = new ActiveDataProvider([
+                'query' => (new ActiveQuery(Post::class))
+                    ->from('post')
+                    ->where(['userId' => $user->userId])
+                    ->orderBy('userId'),
+                'pagination' => [
+                    'pageSize' => 1,
+                ],
             ]);
-            $models = $models->offset($pagination->offset)
-                ->limit($pagination->limit)
-                ->all();
             $uploadFileForm = new UploadFileForm();
             $post = new Post();
             if (Yii::$app->request->isPost) {
@@ -45,8 +51,7 @@ class UserController extends Controller
                 $post->_save($user->userId, $uploadFileForm->filename, Yii::$app->request->post('Post')['content']);
             }
             return $this->render('user',
-                ['user' => $user, 'uploadFileForm' => $uploadFileForm, 'post' => $post, 'models' => $models,
-                    'pagination' => $pagination]);
+                ['user' => $user, 'uploadFileForm' => $uploadFileForm, 'post' => $post, 'dataProvider' => $dataProvider]);
         }
         Yii::$app->session->setFlash('error', 'incorrect user id');
         return $this->goHome();
