@@ -7,7 +7,6 @@ use common\models\database\User;
 use frontend\models\UploadFileForm;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\data\Pagination;
 use yii\db\ActiveQuery;
 use yii\web\Controller;
 use yii\web\UploadedFile;
@@ -21,10 +20,9 @@ class UserController extends Controller
                 ->from('user')
                 ->orderBy('userId'),
             'pagination' => [
-                'pageSize' => 1,
+                'pageSize' => 3,
             ],
         ]);
-
         return $this->render('index', ['dataProvider' => $dataProvider]);
     }
 
@@ -38,7 +36,7 @@ class UserController extends Controller
                     ->where(['userId' => $user->userId])
                     ->orderBy('userId'),
                 'pagination' => [
-                    'pageSize' => 1,
+                    'pageSize' => 3,
                 ],
             ]);
             $uploadFileForm = new UploadFileForm();
@@ -59,15 +57,14 @@ class UserController extends Controller
 
     public function actionArticles()
     {
-        $allUsers = User::find()->where(['>', 'userId', '0']);
-        $countQuery = clone $allUsers;
-        $pagination = new Pagination([
-            'defaultPageSize' => 1,
-            'totalCount' => $countQuery->count()
+        $dataProvider = new ActiveDataProvider([
+            'query' => (new ActiveQuery(Post::class))
+                ->from('post')
+                ->orderBy('userId'),
+            'pagination' => [
+                'pageSize' => 3,
+            ],
         ]);
-        $models = $allUsers->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-        return $this->render('articles', ['models' => $models, 'pagination' => $pagination]);
+        return $this->render('articles', ['dataProvider' => $dataProvider]);
     }
 }

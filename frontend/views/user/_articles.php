@@ -3,7 +3,7 @@
 <div class="well"><?= $model->content ?> <br> <br>
     <img src="../../common/uploads/<?= $model->imageReference ?>" alt="err" class="img-responsive"> <br>
     <?= $model->date ?>
-    <?php if (Yii::$app->user->id === $user->userId): ?>
+    <?php if (Yii::$app->user->id === $model->userId): ?>
         <?= Html::a('Delete', ['post/delete', 'id' => $model->postId], [
             'class' => 'btn btn-danger',
             'style' => 'float: right',
