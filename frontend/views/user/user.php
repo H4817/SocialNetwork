@@ -1,6 +1,6 @@
 <?php
-use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 use yii\widgets\ListView;
 
 $this->title = $user->name;
@@ -8,7 +8,7 @@ $this->title = $user->name;
 ?>
 
 
-<?php if (Yii::$app->user->id === $user->userId) : ?>
+<?php if (\Yii::$app->user->id === $user->userId) : ?>
     <h1>Create new post</h1>
 
     <div class="row">

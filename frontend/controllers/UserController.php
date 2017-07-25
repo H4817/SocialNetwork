@@ -49,7 +49,8 @@ class UserController extends Controller
                 $post->_save($user->userId, $uploadFileForm->filename, Yii::$app->request->post('Post')['content']);
             }
             return $this->render('user',
-                ['user' => $user, 'uploadFileForm' => $uploadFileForm, 'post' => $post, 'dataProvider' => $dataProvider]);
+                ['user' => $user, 'uploadFileForm' => $uploadFileForm, 'post' => $post,
+                    'dataProvider' => $dataProvider]);
         }
         Yii::$app->session->setFlash('error', 'incorrect user id');
         return $this->goHome();

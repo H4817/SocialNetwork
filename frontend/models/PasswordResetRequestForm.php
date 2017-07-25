@@ -2,10 +2,10 @@
 
 namespace frontend\models;
 
+use common\models\database\PasswordRecovery;
+use common\models\database\User;
 use Yii;
 use yii\base\Model;
-use common\models\database\User;
-use common\models\database\PasswordRecovery;
 
 /**
  * Password reset request form
@@ -43,20 +43,17 @@ class PasswordResetRequestForm extends Model
             'email' => $this->email,
         ]);
 
-        if (!empty($user))
-        {
+        if (!empty($user)) {
             $model = PasswordRecovery::findOne([
                 'userId' => $user->userId,
             ]);
-            if (!$model)
-            {
+            if (!$model) {
                 $model = new PasswordRecovery();
                 $model->date = date('Y-m-d H:i:s', time());
                 $model->userId = $user->userId;
             }
             $model->token = $model->generatePasswordResetToken();
-            if (!$model->save())
-            {
+            if (!$model->save()) {
                 return false;
             }
             /*            if (!User::isPasswordResetTokenValid($model->token))
