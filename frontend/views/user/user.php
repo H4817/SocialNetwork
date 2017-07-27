@@ -17,8 +17,7 @@ $this->title = $user->name;
                 ActiveForm::begin(['id' => 'post-form', 'options' => ['enctype' => 'multipart/form-data']]); ?>
 
             <?= $form->field($uploadFileForm, 'imageFile')->fileInput() ?>
-            <?= $form->field($post, 'content')->textarea(['rows' => 6]);
-            ?>
+            <?= $form->field($post, 'content')->textarea(['rows' => 6]); ?>
 
             <div class="form-group">
                 <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'post-button']); ?>

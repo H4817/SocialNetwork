@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\database\BaseComment;
 use common\models\database\Post;
 use common\models\database\User;
 use frontend\models\UploadFileForm;
@@ -36,7 +37,7 @@ class UserController extends Controller
                     ->where(['userId' => $user->userId])
                     ->orderBy('userId'),
                 'pagination' => [
-                    'pageSize' => 3,
+                    'pageSize' => 0,
                 ],
             ]);
             $uploadFileForm = new UploadFileForm();
