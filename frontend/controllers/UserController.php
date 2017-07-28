@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use common\models\database\BaseComment;
 use common\models\database\Post;
 use common\models\database\User;
+use frontend\models\CommentForm;
 use frontend\models\UploadFileForm;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -31,6 +32,12 @@ class UserController extends Controller
     {
         $user = User::findOne(['userId' => $userId]);
         if (!empty($user)) {
+            $comments = (new ActiveQuery(BaseComment::class))->from('comment')->orderBy('commentId');
+//            $comments = BaseComment::findOne(['commentId' => 1]);
+//            $comments = BaseComment::find()->all();
+            $commentForm = new CommentForm();
+
+
             $dataProvider = new ActiveDataProvider([
                 'query' => (new ActiveQuery(Post::class))
                     ->from('post')
@@ -49,9 +56,14 @@ class UserController extends Controller
                 }
                 $post->_save($user->userId, $uploadFileForm->filename, Yii::$app->request->post('Post')['content']);
             }
-            return $this->render('user',
-                ['user' => $user, 'uploadFileForm' => $uploadFileForm, 'post' => $post,
-                    'dataProvider' => $dataProvider]);
+            return $this->render('user', [
+                'user' => $user,
+                'uploadFileForm' => $uploadFileForm,
+                'post' => $post,
+                'dataProvider' => $dataProvider,
+                'comments' => $comments,
+                'commentForm' => $commentForm
+            ]);
         }
         Yii::$app->session->setFlash('error', 'incorrect user id');
         return $this->goHome();

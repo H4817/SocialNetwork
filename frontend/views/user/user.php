@@ -32,7 +32,8 @@ $this->title = $user->name;
 <?php
 echo ListView::widget([
     'dataProvider' => $dataProvider,
-    'itemView' => '_articles'
+    'itemView' => '_articles',
+    'viewParams' => ['comments' => $comments, 'commentForm' => $commentForm]
 ]);
 ?>
 

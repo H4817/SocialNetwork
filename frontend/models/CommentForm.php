@@ -24,7 +24,6 @@ class CommentForm extends Model
         $comment->userId = \Yii::$app->user->id;
         $comment->postId = $articleId;
         $comment->date = date('Y-m-d H:i:s', time());
-
         return $comment->save();
     }
 

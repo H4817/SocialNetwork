@@ -17,7 +17,8 @@ class m170726_100134_create_comment_table extends Migration
             'postId' => $this->integer(),
             'userId' => $this->integer(),
             'message' => $this->string(),
-            'date' => $this->dateTime()
+            'date' => $this->dateTime(),
+            'name' => $this->string(),
         ]);
         $this->addForeignKey('FK-comment-postId-post-postId', 'comment', 'postId', 'post', 'postId');
         $this->addForeignKey('FK-comment-userId-user-userId', 'comment', 'userId', 'user', 'userId');

@@ -11,6 +11,8 @@ use Yii;
  * @property integer $postId
  * @property integer $userId
  * @property string $message
+ * @property string $date
+ * @property string $name
  *
  * @property Post $post
  * @property User $user
@@ -32,7 +34,8 @@ class BaseComment extends \yii\db\ActiveRecord
     {
         return [
             [['postId', 'userId'], 'integer'],
-            [['message'], 'string', 'max' => 255],
+            [['date'], 'safe'],
+            [['message', 'name'], 'string', 'max' => 255],
             [['postId'], 'exist', 'skipOnError' => true, 'targetClass' => Post::className(), 'targetAttribute' => ['postId' => 'postId']],
             [['userId'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userId' => 'userId']],
         ];
@@ -48,6 +51,8 @@ class BaseComment extends \yii\db\ActiveRecord
             'postId' => 'Post ID',
             'userId' => 'User ID',
             'message' => 'Message',
+            'date' => 'Date',
+            'name' => 'Name',
         ];
     }
 
