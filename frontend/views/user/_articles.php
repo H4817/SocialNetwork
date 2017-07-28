@@ -1,4 +1,7 @@
-<?php use yii\helpers\Html; ?>
+<?php use yii\helpers\Html;
+use yii\widgets\ListView;
+
+?>
 
 <div class="well"><?= $model->content ?> <br> <br>
     <img src="../../common/uploads/<?= $model->imageReference ?>" alt="err" class="img-responsive"> <br>
@@ -16,17 +19,12 @@
             ]) ?> <br> <br>
         <?php endif ?>
     <?php endif ?>
-
-    <?php if (!empty($comments)): ?>
-        <?php foreach ($comments->each() as $comment): ?>
-            <?php if ($comment->postId === $model->postId): ?>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <strong><?= $comment->name ?></strong> <span class="text-muted"><?= $comment->date ?></span>
-                    </div>
-                    <div class="panel-body"><?= $comment->message ?></div>
-                </div>
-            <?php endif ?>
-        <?php endforeach ?>
-    <?php endif ?>
+    <?php
+    echo ListView::widget([
+        'dataProvider' => $commentsProvider,
+        'itemView' => '_comments',
+        'viewParams' => ['post' => $model],
+        'summary' => ''
+    ]);
+    ?>
 </div> <br> <br>

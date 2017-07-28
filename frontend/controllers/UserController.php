@@ -32,12 +32,16 @@ class UserController extends Controller
     {
         $user = User::findOne(['userId' => $userId]);
         if (!empty($user)) {
-            $comments = (new ActiveQuery(BaseComment::class))->from('comment')->orderBy('commentId');
-//            $comments = BaseComment::findOne(['commentId' => 1]);
-//            $comments = BaseComment::find()->all();
+//            $comments = (new ActiveQuery(BaseComment::class))->from('comment')->orderBy('commentId');
+            $commentsProvider = new ActiveDataProvider([
+                'query' => (new ActiveQuery(BaseComment::class))
+                    ->from('comment')
+                    ->orderBy('commentId'),
+                'pagination' => [
+                    'pageSize' => 0,
+                ],
+            ]);
             $commentForm = new CommentForm();
-
-
             $dataProvider = new ActiveDataProvider([
                 'query' => (new ActiveQuery(Post::class))
                     ->from('post')
@@ -61,7 +65,7 @@ class UserController extends Controller
                 'uploadFileForm' => $uploadFileForm,
                 'post' => $post,
                 'dataProvider' => $dataProvider,
-                'comments' => $comments,
+                'commentsProvider' => $commentsProvider,
                 'commentForm' => $commentForm
             ]);
         }
