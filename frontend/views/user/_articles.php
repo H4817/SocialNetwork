@@ -1,4 +1,5 @@
 <?php use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 use yii\widgets\ListView;
 
 ?>
@@ -7,7 +8,7 @@ use yii\widgets\ListView;
     <img src="../../common/uploads/<?= $model->imageReference ?>" alt="err" class="img-responsive"> <br>
     <?= $model->date ?>
 
-    <?php if (Yii::$app->getUser()): ?>
+    <?php if (!\Yii::$app->user->isGuest): ?>
         <?php if (Yii::$app->user->id === $model->userId): ?>
             <?= Html::a('<span class="glyphicon glyphicon-trash"></span>', ['post/delete', 'id' => $model->postId], [
                 'class' => 'btn btn-danger',
@@ -19,6 +20,17 @@ use yii\widgets\ListView;
             ]) ?> <br> <br>
         <?php endif ?>
     <?php endif ?>
+
+    <?php if (!\Yii::$app->user->isGuest): ?>
+        <?php $form = ActiveForm::begin(); ?>
+        <?= $form->field($commentForm, 'comment')->textarea(['rows' => 6]); ?>
+        <?= $form->field($commentForm, 'postId')->hiddenInput(['value' => $model->postId]) ?>
+        <div class="form-group">
+            <?= Html::submitButton('Send', ['class' => 'btn btn-primary']); ?>
+        </div>
+        <?php $form = ActiveForm::end(); ?>
+    <?php endif ?>
+
     <?php
     echo ListView::widget([
         'dataProvider' => $commentsProvider,

@@ -20,7 +20,7 @@ $this->title = $user->name;
             <?= $form->field($post, 'content')->textarea(['rows' => 6]); ?>
 
             <div class="form-group">
-                <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'post-button']); ?>
+                <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']); ?>
             </div>
 
             <?php ActiveForm::end(); ?>

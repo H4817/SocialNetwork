@@ -32,7 +32,6 @@ class UserController extends Controller
     {
         $user = User::findOne(['userId' => $userId]);
         if (!empty($user)) {
-//            $comments = (new ActiveQuery(BaseComment::class))->from('comment')->orderBy('commentId');
             $commentsProvider = new ActiveDataProvider([
                 'query' => (new ActiveQuery(BaseComment::class))
                     ->from('comment')
@@ -54,11 +53,19 @@ class UserController extends Controller
             $uploadFileForm = new UploadFileForm();
             $post = new Post();
             if (Yii::$app->request->isPost) {
-                $uploadFileForm->imageFile = UploadedFile::getInstance($uploadFileForm, 'imageFile');
-                if (!$uploadFileForm->upload()) {
-                    Yii::$app->getSession()->setFlash('error', 'Upload file error');
+                if (\Yii::$app->request->post('UploadFileForm')) {
+                    $uploadFileForm->imageFile = UploadedFile::getInstance($uploadFileForm, 'imageFile');
+                    if (!$uploadFileForm->upload()) {
+                        Yii::$app->getSession()->setFlash('error', 'Upload file error');
+                    }
+                    $post->_save($user->userId, $uploadFileForm->filename, Yii::$app->request->post('Post')['content']);
+                } else if ((\Yii::$app->request->post('CommentForm'))) {
+                    $commentForm->attributes = \Yii::$app->request->post('CommentForm');
+                    if (!($commentForm->validate() && $commentForm->saveComment($user->name))) {
+                        Yii::$app->session->setFlash('error', 'cannot add comment');
+                    }
+//                    unset($_POST['CommentForm']);
                 }
-                $post->_save($user->userId, $uploadFileForm->filename, Yii::$app->request->post('Post')['content']);
             }
             return $this->render('user', [
                 'user' => $user,
