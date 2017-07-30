@@ -22,9 +22,11 @@ class Post extends BasePost
         $this->date = date('Y-m-d H:i:s', time());
         $this->imageReference = $filename;
         $this->content = $content;
-        if ($this->validate()) {
-            return $this->save();
+        if ($this->validate() && $this->save()) {
+            $this->content = '';
+            return true;
         }
+        $this->content = '';
         return false;
     }
 }

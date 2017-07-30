@@ -18,14 +18,14 @@ class CommentForm extends Model
         ];
     }
 
-    public function saveComment($name)
+    public function saveComment()
     {
         $comment = new BaseComment();
         $comment->message = $this->comment;
         $comment->userId = \Yii::$app->user->id;
         $comment->postId = $this->postId;
         $comment->date = date('Y-m-d H:i:s', time());
-        $comment->name = $name;
+        $comment->name = \Yii::$app->user->identity['name'];
 
         return $comment->save();
     }

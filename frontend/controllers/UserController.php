@@ -61,10 +61,10 @@ class UserController extends Controller
                     $post->_save($user->userId, $uploadFileForm->filename, Yii::$app->request->post('Post')['content']);
                 } else if ((\Yii::$app->request->post('CommentForm'))) {
                     $commentForm->attributes = \Yii::$app->request->post('CommentForm');
-                    if (!($commentForm->validate() && $commentForm->saveComment($user->name))) {
+                    if (!($commentForm->validate() && $commentForm->saveComment())) {
                         Yii::$app->session->setFlash('error', 'cannot add comment');
                     }
-//                    unset($_POST['CommentForm']);
+                    $commentForm->comment = '';
                 }
             }
             return $this->render('user', [
