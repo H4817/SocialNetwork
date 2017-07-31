@@ -86,6 +86,14 @@ class UserController extends Controller
 
     public function actionArticles()
     {
+        $commentsProvider = new ActiveDataProvider([
+            'query' => (new ActiveQuery(BaseComment::class))
+                ->from('comment')
+                ->orderBy('commentId'),
+            'pagination' => [
+                'pageSize' => 0,
+            ],
+        ]);
         $dataProvider = new ActiveDataProvider([
             'query' => (new ActiveQuery(Post::class))
                 ->from('post')
@@ -94,6 +102,11 @@ class UserController extends Controller
                 'pageSize' => 3,
             ],
         ]);
-        return $this->render('articles', ['dataProvider' => $dataProvider]);
+        $commentForm = new CommentForm();
+        return $this->render('articles', [
+            'dataProvider' => $dataProvider,
+            'commentsProvider' => $commentsProvider,
+            'commentForm' => $commentForm
+        ]);
     }
 }

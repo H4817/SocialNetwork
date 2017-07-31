@@ -7,7 +7,6 @@ $this->title = $user->name;
 
 ?>
 
-
 <?php if (\Yii::$app->user->id === $user->userId) : ?>
     <h1>Create new post</h1>
 

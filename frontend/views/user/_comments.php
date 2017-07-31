@@ -30,11 +30,24 @@ if ($model->postId === $post->postId): ?>
         <?php $form = ActiveForm::end(); ?>
         <script type="text/javascript">
             var commentArea = document.getElementById("<?=$randomStr?>");
+
+            $('body').click(function(evt){
+                if(( evt.target.id === "<?=$randomStr?>" ) || ( evt.target.id === "<?=$randomStr . 'form'?>" )) {
+                    console.log("<?=$randomStr?>");
+                    return;
+                }
+                if($(evt.target).closest('#<?=$randomStr?>').length || $(evt.target).closest('#<?=$randomStr?>form').length) {
+                    console.log("<?=$randomStr?>");
+                    return;
+                }
+                $('#<?=$randomStr?>').show();
+                $('#<?=$randomStr . 'form'?>').hide();
+            });
             commentArea.onclick = function () {
-                $('.comment-form').toggle();
-                $('#<?=$randomStr?>').toggle();
-                $('#<?=$randomStr . 'form'?>').toggle();
-            }
+                $('#<?=$randomStr?>').hide();
+                $('#<?=$randomStr . 'form'?>').show();
+            };
+
         </script>
     <?php endif ?>
 <?php endif ?>
