@@ -17,9 +17,15 @@ class CommentController extends Controller
     public function actionDelete($id)
     {
         $comment = BaseComment::findOne(['commentId' => $id]);
-        if (!$comment->delete()) {
-            \Yii::$app->getSession()->setFlash('error', 'cannot delete this comment');
-        }
+        $comment->delete();
+        return $this->redirect(\Yii::$app->request->referrer);
+    }
+
+    public function actionUpdate($id, $message)
+    {
+        $comment = BaseComment::findOne(['commentId' => $id]);
+        $comment->message = $message;
+        $comment->update();
         return $this->redirect(\Yii::$app->request->referrer);
     }
 }

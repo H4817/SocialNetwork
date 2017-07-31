@@ -65,6 +65,10 @@ class UserController extends Controller
                         Yii::$app->session->setFlash('error', 'cannot add comment');
                     }
                     $commentForm->comment = '';
+                } else if (\Yii::$app->request->post('BaseComment')) {
+                    $comment = BaseComment::findOne(['commentId' => \Yii::$app->request->post('BaseComment')['commentId']]);
+                    $comment->message = \Yii::$app->request->post('BaseComment')['message'];
+                    $comment->update();
                 }
             }
             return $this->render('user', [

@@ -20,7 +20,7 @@ use yii\widgets\ListView;
         <?php endif ?>
     <?php endif ?>
     <?php if (!\Yii::$app->user->isGuest): ?>
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(['options' => ['class' => 'comment-form']]); ?>
         <?= $form->field($commentForm, 'comment')->textarea(['rows' => 6]); ?>
         <?= $form->field($commentForm, 'postId')->hiddenInput(['value' => $model->postId])->label(false) ?>
         <div class="form-group">
