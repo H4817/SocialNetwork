@@ -6,7 +6,6 @@ use common\models\database\BaseComment;
 use common\models\database\Post;
 use common\models\database\User;
 use frontend\models\CommentForm;
-use frontend\models\UploadFileForm;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
@@ -50,15 +49,14 @@ class UserController extends Controller
                     'pageSize' => 0,
                 ],
             ]);
-            $uploadFileForm = new UploadFileForm();
             $post = new Post();
             if (Yii::$app->request->isPost) {
-                if (\Yii::$app->request->post('UploadFileForm')) {
-                    $uploadFileForm->imageFile = UploadedFile::getInstance($uploadFileForm, 'imageFile');
-                    if (!$uploadFileForm->upload()) {
+                if (\Yii::$app->request->post('Post')) {
+                    $post->imageFile = UploadedFile::getInstance($post, 'imageFile');
+                    if (!$post->savePostImage()) {
                         Yii::$app->getSession()->setFlash('error', 'Upload file error');
                     }
-                    $post->_save($user->userId, $uploadFileForm->filename, Yii::$app->request->post('Post')['content']);
+                    $post->saveToDatabase($user->userId, Yii::$app->request->post('Post')['content']);
                 } else if ((\Yii::$app->request->post('CommentForm'))) {
                     $commentForm->attributes = \Yii::$app->request->post('CommentForm');
                     if (!($commentForm->validate() && $commentForm->saveComment())) {
@@ -66,14 +64,14 @@ class UserController extends Controller
                     }
                     $commentForm->comment = '';
                 } else if (\Yii::$app->request->post('BaseComment')) {
-                    $comment = BaseComment::findOne(['commentId' => \Yii::$app->request->post('BaseComment')['commentId']]);
+                    $comment =
+                        BaseComment::findOne(['commentId' => \Yii::$app->request->post('BaseComment')['commentId']]);
                     $comment->message = \Yii::$app->request->post('BaseComment')['message'];
                     $comment->update();
                 }
             }
             return $this->render('user', [
                 'user' => $user,
-                'uploadFileForm' => $uploadFileForm,
                 'post' => $post,
                 'dataProvider' => $dataProvider,
                 'commentsProvider' => $commentsProvider,

@@ -2,6 +2,8 @@
 
 namespace common\models\database;
 
+use yii\web\UploadedFile;
+
 /**
  * This is the model class for table "post".
  *
@@ -15,18 +17,43 @@ namespace common\models\database;
  */
 class Post extends BasePost
 {
+    /**
+     * @var UploadedFile
+     */
+    public $imageFile;
+    public $path;
+    public $filename;
 
-    public function _save($userId, $filename, $content)
+/*    public function rules()
     {
-        $this->userId = $userId;
-        $this->date = date('Y-m-d H:i:s', time());
-        $this->imageReference = $filename;
-        $this->content = $content;
-        if ($this->validate() && $this->save()) {
-            $this->content = '';
+        return [
+            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg'],
+        ];
+    }*/
+
+    public function savePostImage()
+    {
+        if ($this->validate()) {
+            $this->filename = strtolower(md5(uniqid($this->imageFile->baseName))) . '.' . $this->imageFile->extension;
+            $this->path = \Yii::getAlias('@common') . '/uploads/' . $this->filename;
+            $this->imageFile->saveAs($this->path);
             return true;
+        } else {
+            return false;
         }
-        $this->content = '';
-        return false;
     }
+
+        public function saveToDatabase($userId, $content)
+        {
+            $this->userId = $userId;
+            $this->date = date('Y-m-d H:i:s', time());
+            $this->imageReference = $this->filename;
+            $this->content = $content;
+            if ($this->save()) {
+                $this->content = '';
+                return true;
+            }
+            $this->content = '';
+            return false;
+        }
 }
