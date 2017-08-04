@@ -1,37 +1,53 @@
 <?php
+
 namespace console\models;
-use Ratchet\MessageComponentInterface;
+
 use Ratchet\ConnectionInterface;
+use Ratchet\MessageComponentInterface;
 
 class SocketServer implements MessageComponentInterface
 {
     protected $clients;
+    private $subscriptions;
+    private $users;
+
     public function __construct()
     {
-        $this->clients = new \SplObjectStorage; // Для хранения технической информации об присоединившихся клиентах используется технология SplObjectStorage, встроенная в PHP
+        $this->clients = new \SplObjectStorage;
+        $this->subscriptions = [];
+        $this->users = [];
     }
 
     public function onOpen(ConnectionInterface $conn)
     {
         $this->clients->attach($conn);
-        echo "New connection! ({$conn->resourceId})\n";
+        $this->users[$conn->resourceId] = $conn;
     }
 
-    public function onMessage(ConnectionInterface $from, $msg)
+    public function onMessage(ConnectionInterface $conn, $msg)
     {
-        $data = json_decode($msg, true); //для приема сообщений в формате json
-        if (is_null($data))
-        {
-            echo "invalid data\n";
-            return $from->close();
+        $data = json_decode($msg);
+        switch ($data->command) {
+            case "subscribe":
+                $this->subscriptions[$conn->resourceId] = $data->channel;
+                break;
+            case "message":
+                if (isset($this->subscriptions[$conn->resourceId])) {
+                    $target = $this->subscriptions[$conn->resourceId];
+                    foreach ($this->subscriptions as $id => $channel) {
+                        if ($channel != $target && $id != $conn->resourceId) {
+                            $this->users[$id]->send($data->message);
+                        }
+                    }
+                }
         }
-        echo $from->resourceId."\n";//id, присвоенное подключившемуся клиенту
     }
 
     public function onClose(ConnectionInterface $conn)
     {
         $this->clients->detach($conn);
-        echo "Connection {$conn->resourceId} has disconnected\n";
+        unset($this->users[$conn->resourceId]);
+        unset($this->subscriptions[$conn->resourceId]);
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e)

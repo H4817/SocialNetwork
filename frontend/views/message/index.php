@@ -17,14 +17,28 @@ use yii\widgets\ActiveForm;
     var socket = new WebSocket("ws://localhost:8080");
     document.forms.publish.onsubmit = function () {
         var outgoingMessage = this.message.value;
-        socket.send(outgoingMessage);
+        this.message.value = '';
+        sendMessage(outgoingMessage);
         return false;
+    };
+
+    socket.onopen = function (event) {
+        subscribe(<?=$receiverId?>);
+        console.log("Connection established!");
     };
 
     socket.onmessage = function (event) {
         var incomingMessage = event.data;
         showMessage(incomingMessage);
     };
+
+    function subscribe(channel) {
+        socket.send(JSON.stringify({command: "subscribe", channel: channel}));
+    }
+
+    function sendMessage(msg) {
+        socket.send(JSON.stringify({command: "message", message: msg}));
+    }
 
     function showMessage(message) {
         var messageElem = document.createElement('div');
