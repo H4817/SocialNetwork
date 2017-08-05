@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
     };
 
     socket.onopen = function (event) {
-        subscribe(<?=$receiverId?>);
+        subscribe(<?=$roomId?>);
         console.log("Connection established!");
     };
 

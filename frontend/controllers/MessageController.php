@@ -11,7 +11,8 @@ class MessageController extends Controller
     {
         if (!\Yii::$app->user->isGuest) {
             $model = new BaseMessage();
-            return $this->render('index', ['receiverId' => $receiverId, 'model' => $model]);
+            $roomId = (\Yii::$app->user->id > $receiverId) ? $receiverId . \Yii::$app->user->id : \Yii::$app->user->id . $receiverId;
+            return $this->render('index', ['receiverId' => $receiverId, 'roomId' => $roomId, 'model' => $model]);
         }
         return $this->goHome();
     }

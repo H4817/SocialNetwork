@@ -21,7 +21,7 @@ class UserController extends Controller
                 ->from('user')
                 ->orderBy('userId'),
             'pagination' => [
-                'pageSize' => 3,
+                'pageSize' => 0,
             ],
         ]);
         return $this->render('index', ['dataProvider' => $dataProvider]);

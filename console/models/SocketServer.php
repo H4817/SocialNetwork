@@ -33,12 +33,10 @@ class SocketServer implements MessageComponentInterface
                 break;
             case "message":
                 if (isset($this->subscriptions[$conn->resourceId])) {
-                    $target = $this->subscriptions[$conn->resourceId];
-                    foreach ($this->subscriptions as $id => $channel) {
-                        if ($channel != $target && $id != $conn->resourceId) {
-                            $this->users[$id]->send($data->message);
-                        }
-                    }
+                    $receiver = array_filter($this->subscriptions, function ($value, $key) use ($conn) {
+                        return ($value == $this->subscriptions[$conn->resourceId]) && ($conn->resourceId != $key);
+                    }, ARRAY_FILTER_USE_BOTH);
+                    $this->users[key($receiver)]->send($data->message);
                 }
         }
     }
