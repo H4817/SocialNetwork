@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 <?php $form = ActiveForm::begin(['options' => ['name' => 'publish']]); ?>
 <?= $form->field($model, 'message')->textarea(['rows' => 6, 'name' => 'message']); ?>
 <div class="form-group">
-    <?= Html::submitButton('<div class="glyphicon glyphicon-send"></div>', ['class' => 'btn btn-primary']); ?>
+    <?= Html::submitButton('<div class="glyphicon glyphicon-send"></div>', ['class' => 'btn btn-primary', 'onSubmit'=>'onsubmit']); ?>
 </div>
 <?php $form = ActiveForm::end(); ?>
 
@@ -15,9 +15,10 @@ use yii\widgets\ActiveForm;
 
 <script type="text/javascript">
     var socket = new WebSocket("ws://localhost:8080");
-    document.forms.publish.onsubmit = function () {
-        var outgoingMessage = this.message.value;
-        this.message.value = '';
+    function onsubmit () {
+        var form = document.forms.publish;
+        var outgoingMessage = form.message.value;
+        form.message.value = '';
         sendMessage(outgoingMessage);
         return false;
     };

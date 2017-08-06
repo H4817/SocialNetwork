@@ -36,7 +36,9 @@ class SocketServer implements MessageComponentInterface
                     $receiver = array_filter($this->subscriptions, function ($value, $key) use ($conn) {
                         return ($value == $this->subscriptions[$conn->resourceId]) && ($conn->resourceId != $key);
                     }, ARRAY_FILTER_USE_BOTH);
-                    $this->users[key($receiver)]->send($data->message);
+                    if (!empty($receiver)) {
+                        $this->users[key($receiver)]->send($data->message);
+                    }
                 }
         }
     }

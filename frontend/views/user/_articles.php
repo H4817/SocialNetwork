@@ -3,7 +3,6 @@ use yii\widgets\ActiveForm;
 use yii\widgets\ListView;
 
 ?>
-
 <div class="well"><?= $model->content ?> <br> <br>
     <img src="../../common/uploads/<?= $model->imageReference ?>" alt="err" class="img-responsive"> <br>
     <?= $model->date ?>
@@ -17,6 +16,7 @@ use yii\widgets\ListView;
                     'method' => 'post',
                 ],
             ]) ?> <br> <br>
+
         <?php endif ?>
     <?php endif ?>
     <?php if (!\Yii::$app->user->isGuest): ?>

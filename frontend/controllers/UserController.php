@@ -84,6 +84,20 @@ class UserController extends Controller
 
     public function actionArticles()
     {
+        $commentForm = new CommentForm();
+        if (\Yii::$app->request->post('BaseComment')) {
+            $comment =
+                BaseComment::findOne(['commentId' => \Yii::$app->request->post('BaseComment')['commentId']]);
+            $comment->message = \Yii::$app->request->post('BaseComment')['message'];
+            $comment->update();
+        }
+        else if ((\Yii::$app->request->post('CommentForm'))) {
+            $commentForm->attributes = \Yii::$app->request->post('CommentForm');
+            if (!($commentForm->validate() && $commentForm->saveComment())) {
+                Yii::$app->session->setFlash('error', 'cannot add comment');
+            }
+            $commentForm->comment = '';
+        }
         $commentsProvider = new ActiveDataProvider([
             'query' => (new ActiveQuery(BaseComment::class))
                 ->from('comment')
@@ -100,7 +114,6 @@ class UserController extends Controller
                 'pageSize' => 3,
             ],
         ]);
-        $commentForm = new CommentForm();
         return $this->render('articles', [
             'dataProvider' => $dataProvider,
             'commentsProvider' => $commentsProvider,

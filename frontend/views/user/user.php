@@ -12,6 +12,7 @@ $this->title = $user->name;
 
     <div class="row">
         <div class="col-lg-5">
+            <?php \yii\widgets\Pjax::begin(['timeout' => 5000]); ?>
             <?php $form =
                 ActiveForm::begin(['id' => 'post-form', 'options' => ['enctype' => 'multipart/form-data']]); ?>
 
@@ -23,10 +24,10 @@ $this->title = $user->name;
             </div>
 
             <?php ActiveForm::end(); ?>
+            <?php \yii\widgets\Pjax::end(); ?>
         </div>
     </div>
 <?php endif; ?>
-
 
 <?php
 echo ListView::widget([
@@ -35,4 +36,3 @@ echo ListView::widget([
     'viewParams' => ['commentsProvider' => $commentsProvider, 'commentForm' => $commentForm]
 ]);
 ?>
-

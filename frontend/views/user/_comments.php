@@ -33,11 +33,9 @@ if ($model->postId === $post->postId): ?>
 
             $('body').click(function(evt){
                 if(( evt.target.id === "<?=$randomStr?>" ) || ( evt.target.id === "<?=$randomStr . 'form'?>" )) {
-                    console.log("<?=$randomStr?>");
                     return;
                 }
                 if($(evt.target).closest('#<?=$randomStr?>').length || $(evt.target).closest('#<?=$randomStr?>form').length) {
-                    console.log("<?=$randomStr?>");
                     return;
                 }
                 $('#<?=$randomStr?>').show();
