@@ -4,24 +4,23 @@ use yii\widgets\ActiveForm;
 
 ?>
 
-<?php $form = ActiveForm::begin(['options' => ['name' => 'publish']]); ?>
-<?= $form->field($model, 'message')->textarea(['rows' => 6, 'name' => 'message']); ?>
+<?php \yii\widgets\Pjax::begin(['timeout' => 5000]); ?>
+<?php $form = ActiveForm::begin(['options' => ['name' => 'publish', 'id' => 'message-form']]); ?>
+<?= $form->field($model, 'message')->textarea(['rows' => 6, 'name' => 'message', 'id' => 'msg']); ?>
 <div class="form-group">
-    <?= Html::submitButton('<div class="glyphicon glyphicon-send"></div>', ['class' => 'btn btn-primary', 'onSubmit'=>'onsubmit']); ?>
+    <?= Html::submitButton('<div class="glyphicon glyphicon-send"></div>', ['class' => 'btn btn-primary']); ?>
 </div>
 <?php $form = ActiveForm::end(); ?>
 
 <div id="subscribe"></div>
+<?php \yii\widgets\Pjax::end(); ?>
 
 <script type="text/javascript">
     var socket = new WebSocket("ws://localhost:8080");
-    function onsubmit () {
-        var form = document.forms.publish;
-        var outgoingMessage = form.message.value;
-        form.message.value = '';
-        sendMessage(outgoingMessage);
-        return false;
-    };
+
+    $('#message-form').on('beforeSubmit', function () {
+        sendMessage($('#msg').val());
+    });
 
     socket.onopen = function (event) {
         subscribe(<?=$roomId?>);
@@ -47,3 +46,4 @@ use yii\widgets\ActiveForm;
         document.getElementById('subscribe').appendChild(messageElem);
     }
 </script>
+

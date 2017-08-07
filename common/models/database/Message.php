@@ -12,5 +12,6 @@ class Message extends BaseMessage
         $this->message = $data[2];
         $this->date = date('Y-m-d H:i:s', time());
         $this->save();
+        $this->message = '';
     }
 }
