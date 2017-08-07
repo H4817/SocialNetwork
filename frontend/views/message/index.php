@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+$this->registerCssFile('css/messages.css');
 ?>
 
 <?php \yii\widgets\Pjax::begin(['timeout' => 5000]); ?>
@@ -12,7 +13,7 @@ use yii\widgets\ActiveForm;
 </div>
 <?php $form = ActiveForm::end(); ?>
 
-<div id="subscribe"></div>
+<ul id="messages" class="messages"></ul>
 <?php \yii\widgets\Pjax::end(); ?>
 
 <script type="text/javascript">
@@ -41,9 +42,22 @@ use yii\widgets\ActiveForm;
     }
 
     function showMessage(message) {
-        var messageElem = document.createElement('div');
-        messageElem.appendChild(document.createTextNode(message));
-        document.getElementById('subscribe').appendChild(messageElem);
+        var messageElem = document.createElement('li');
+        messageElem.className += 'message left appeared';
+        var avatar = document.createElement('div');
+        avatar.className += 'profile';
+        avatar.setAttribute('data-name', 'Nikolaj');
+
+        var textWrapper = document.createElement('div');
+        textWrapper.className += 'text_wrapper';
+        var text = document.createElement('div');
+        text.className += 'text';
+        text.appendChild(document.createTextNode(message));
+        textWrapper.appendChild(text);
+        messageElem.appendChild(avatar);
+        messageElem.appendChild(textWrapper);
+        $('.profile').initial();
+        document.getElementById('messages').appendChild(messageElem);
     }
 </script>
 
