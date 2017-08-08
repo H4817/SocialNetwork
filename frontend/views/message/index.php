@@ -1,8 +1,13 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\widgets\ListView;
 
 $this->registerCssFile('css/messages.css');
+$this->registerJsFile('initial.js');
+if (class_exists('yii\debug\Module')) {
+    $this->off(\yii\web\View::EVENT_END_BODY, [\yii\debug\Module::getInstance(), 'renderToolbar']);
+}
 ?>
 
 <?php \yii\widgets\Pjax::begin(['timeout' => 5000]); ?>
@@ -12,15 +17,23 @@ $this->registerCssFile('css/messages.css');
     <?= Html::submitButton('<div class="glyphicon glyphicon-send"></div>', ['class' => 'btn btn-primary']); ?>
 </div>
 <?php $form = ActiveForm::end(); ?>
+<ul id="messages" class="messages">
+    <?php echo ListView::widget([
+        'dataProvider' => $dataProvider,
+        'itemView' => '_messages',
+        'summary' => '',
 
-<ul id="messages" class="messages"></ul>
+    ]);
+    ?>
+</ul>
 <?php \yii\widgets\Pjax::end(); ?>
 
 <script type="text/javascript">
     var socket = new WebSocket("ws://localhost:8080");
 
     $('#message-form').on('beforeSubmit', function () {
-        sendMessage($('#msg').val());
+        var msg = $('#msg').val();
+        sendMessage(msg);
     });
 
     socket.onopen = function (event) {
@@ -45,8 +58,7 @@ $this->registerCssFile('css/messages.css');
         var messageElem = document.createElement('li');
         messageElem.className += 'message left appeared';
         var avatar = document.createElement('div');
-        avatar.className += 'profile';
-        avatar.setAttribute('data-name', 'Nikolaj');
+        avatar.className += 'avatar';
 
         var textWrapper = document.createElement('div');
         textWrapper.className += 'text_wrapper';
@@ -56,7 +68,6 @@ $this->registerCssFile('css/messages.css');
         textWrapper.appendChild(text);
         messageElem.appendChild(avatar);
         messageElem.appendChild(textWrapper);
-        $('.profile').initial();
         document.getElementById('messages').appendChild(messageElem);
     }
 </script>
