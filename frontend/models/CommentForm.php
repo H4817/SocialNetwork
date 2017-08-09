@@ -2,7 +2,7 @@
 
 namespace frontend\models;
 
-use common\models\database\BaseComment;
+use common\models\database\Comment;
 use yii\base\Model;
 
 class CommentForm extends Model
@@ -20,7 +20,7 @@ class CommentForm extends Model
 
     public function saveComment()
     {
-        $comment = new BaseComment();
+        $comment = new Comment();
         $comment->message = $this->comment;
         $comment->userId = \Yii::$app->user->id;
         $comment->postId = $this->postId;

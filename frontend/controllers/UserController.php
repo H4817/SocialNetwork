@@ -2,7 +2,7 @@
 
 namespace frontend\controllers;
 
-use common\models\database\BaseComment;
+use common\models\database\Comment;
 use common\models\database\Post;
 use common\models\database\User;
 use frontend\models\CommentForm;
@@ -32,7 +32,7 @@ class UserController extends Controller
         $user = User::findOne(['userId' => $userId]);
         if (!empty($user)) {
             $commentsProvider = new ActiveDataProvider([
-                'query' => (new ActiveQuery(BaseComment::class))
+                'query' => (new ActiveQuery(Comment::class))
                     ->from('comment')
                     ->orderBy('commentId'),
                 'pagination' => [
@@ -63,10 +63,10 @@ class UserController extends Controller
                         Yii::$app->session->setFlash('error', 'cannot add comment');
                     }
                     $commentForm->comment = '';
-                } else if (\Yii::$app->request->post('BaseComment')) {
+                } else if (\Yii::$app->request->post('Comment')) {
                     $comment =
-                        BaseComment::findOne(['commentId' => \Yii::$app->request->post('BaseComment')['commentId']]);
-                    $comment->message = \Yii::$app->request->post('BaseComment')['message'];
+                        Comment::findOne(['commentId' => \Yii::$app->request->post('Comment')['commentId']]);
+                    $comment->message = \Yii::$app->request->post('Comment')['message'];
                     $comment->update();
                 }
             }
@@ -85,10 +85,10 @@ class UserController extends Controller
     public function actionArticles()
     {
         $commentForm = new CommentForm();
-        if (\Yii::$app->request->post('BaseComment')) {
+        if (\Yii::$app->request->post('Comment')) {
             $comment =
-                BaseComment::findOne(['commentId' => \Yii::$app->request->post('BaseComment')['commentId']]);
-            $comment->message = \Yii::$app->request->post('BaseComment')['message'];
+                Comment::findOne(['commentId' => \Yii::$app->request->post('Comment')['commentId']]);
+            $comment->message = \Yii::$app->request->post('Comment')['message'];
             $comment->update();
         }
         else if ((\Yii::$app->request->post('CommentForm'))) {
@@ -99,7 +99,7 @@ class UserController extends Controller
             $commentForm->comment = '';
         }
         $commentsProvider = new ActiveDataProvider([
-            'query' => (new ActiveQuery(BaseComment::class))
+            'query' => (new ActiveQuery(Comment::class))
                 ->from('comment')
                 ->orderBy('commentId'),
             'pagination' => [

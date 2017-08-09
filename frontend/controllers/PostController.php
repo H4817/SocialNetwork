@@ -2,7 +2,7 @@
 
 namespace frontend\controllers;
 
-use common\models\database\BaseComment;
+use common\models\database\Comment;
 use common\models\database\Post;
 use frontend\models\PostSearch;
 use Yii;
@@ -102,7 +102,7 @@ class PostController extends Controller
      */
     public function actionDelete($id)
     {
-        BaseComment::deleteAll(['postId' => $id]);
+        Comment::deleteAll(['postId' => $id]);
         $this->findModel($id)->delete();
         return $this->redirect(Yii::$app->request->referrer);
     }
