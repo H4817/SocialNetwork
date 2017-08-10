@@ -3,14 +3,13 @@
 namespace frontend\controllers;
 
 use common\models\database\Comment;
-use yii\db\ActiveQuery;
 use yii\web\Controller;
 
 class CommentController extends Controller
 {
     public function actionIndex()
     {
-        $comments = ((new ActiveQuery(Comment::class))->from('comment')->orderBy('commentId'));
+        $comments = Comment::find()->orderBy('commentId');
         return $this->render('index', ['comments' => $comments]);
     }
 

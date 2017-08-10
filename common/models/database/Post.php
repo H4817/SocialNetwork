@@ -24,12 +24,15 @@ class Post extends BasePost
     public $path;
     public $filename;
 
-/*    public function rules()
+    public function beforeSave($insert)
     {
-        return [
-            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg'],
-        ];
-    }*/
+        if (parent::beforeSave($insert)) {
+            $this->date = date('Y-m-d H:i:s', time());
+            return true;
+        }
+        return false;
+    }
+
 
     public function savePostImage()
     {
@@ -43,17 +46,16 @@ class Post extends BasePost
         }
     }
 
-        public function saveToDatabase($userId, $content)
-        {
-            $this->userId = $userId;
-            $this->date = date('Y-m-d H:i:s', time());
-            $this->imageReference = $this->filename;
-            $this->content = $content;
-            if ($this->save()) {
-                $this->content = '';
-                return true;
-            }
+    public function saveToDatabase($userId, $content)
+    {
+        $this->userId = $userId;
+        $this->imageReference = $this->filename;
+        $this->content = $content;
+        if ($this->save()) {
             $this->content = '';
-            return false;
+            return true;
         }
+        $this->content = '';
+        return false;
+    }
 }
