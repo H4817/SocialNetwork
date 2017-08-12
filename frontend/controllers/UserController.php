@@ -17,9 +17,8 @@ class UserController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => (new ActiveQuery(User::class))
-                ->from('user')
-                ->orderBy('userId'),
+            'query' => (User::find()
+                ->orderBy('userId')),
             'pagination' => [
                 'pageSize' => 0,
             ],
@@ -32,19 +31,17 @@ class UserController extends Controller
         $user = User::findOne(['userId' => $userId]);
         if (!empty($user)) {
             $commentsProvider = new ActiveDataProvider([
-                'query' => (new ActiveQuery(Comment::class))
-                    ->from('comment')
-                    ->orderBy('commentId'),
+                'query' => (Comment::find()
+                    ->orderBy('commentId')),
                 'pagination' => [
                     'pageSize' => 0,
                 ],
             ]);
             $commentForm = new CommentForm();
             $dataProvider = new ActiveDataProvider([
-                'query' => (new ActiveQuery(Post::class))
-                    ->from('post')
+                'query' => (Post::find()
                     ->where(['userId' => $user->userId])
-                    ->orderBy('userId'),
+                    ->orderBy('userId')),
                 'pagination' => [
                     'pageSize' => 0,
                 ],
@@ -90,8 +87,7 @@ class UserController extends Controller
                 Comment::findOne(['commentId' => \Yii::$app->request->post('Comment')['commentId']]);
             $comment->message = \Yii::$app->request->post('Comment')['message'];
             $comment->update();
-        }
-        else if ((\Yii::$app->request->post('CommentForm'))) {
+        } else if ((\Yii::$app->request->post('CommentForm'))) {
             $commentForm->attributes = \Yii::$app->request->post('CommentForm');
             if (!($commentForm->validate() && $commentForm->saveComment())) {
                 Yii::$app->session->setFlash('error', 'cannot add comment');
