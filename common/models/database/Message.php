@@ -15,8 +15,10 @@ class Message extends BaseMessage
     }
 
 
+
     public function load($data, $formName = null)
     {
+        parent::load($data);
         $this->senderId = $data[0];
         $this->receiverId = $data[1];
         $this->message = $data[2];
