@@ -4,6 +4,12 @@ namespace common\models\database;
 
 class Message extends BaseMessage
 {
+    public function rules()
+    {
+        return [
+            [['message'], 'required'],
+        ];
+    }
 
     public function beforeSave($insert)
     {
@@ -13,7 +19,6 @@ class Message extends BaseMessage
         }
         return false;
     }
-
 
 
     public function load($data, $formName = null)
