@@ -33,6 +33,6 @@ $this->title = $user->name;
 echo ListView::widget([
     'dataProvider' => $dataProvider,
     'itemView' => '_articles',
-    'viewParams' => ['commentsProvider' => $commentsProvider, 'commentForm' => $commentForm]
+    'viewParams' => ['commentsProvider' => $commentsProvider, 'comment' => $comment]
 ]);
 ?>

@@ -20,9 +20,9 @@ use yii\widgets\ListView;
         <?php endif ?>
     <?php endif ?>
     <?php if (!\Yii::$app->user->isGuest): ?>
-        <?php $form = ActiveForm::begin(['options' => ['class' => 'comment-form']]); ?>
-        <?= $form->field($commentForm, 'comment')->textarea(['rows' => 6]); ?>
-        <?= $form->field($commentForm, 'postId')->hiddenInput(['value' => $model->postId])->label(false) ?>
+        <?php $form = ActiveForm::begin(['options' => ['class' => 'comment-form'], 'action' => ['comment/create']]); ?>
+        <?= $form->field($comment, 'message')->textarea(['rows' => 6]); ?>
+        <?= $form->field($comment, 'postId')->hiddenInput(['value' => $model->postId])->label(false) ?>
         <div class="form-group">
             <?= Html::submitButton('Send', ['class' => 'btn btn-primary']); ?>
         </div>

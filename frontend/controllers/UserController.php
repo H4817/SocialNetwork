@@ -5,7 +5,6 @@ namespace frontend\controllers;
 use common\models\database\Comment;
 use common\models\database\Post;
 use common\models\database\User;
-use frontend\models\CommentForm;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
@@ -37,7 +36,7 @@ class UserController extends Controller
                     'pageSize' => 0,
                 ],
             ]);
-            $commentForm = new CommentForm();
+            $comment = new Comment();
             $dataProvider = new ActiveDataProvider([
                 'query' => (Post::find()
                     ->where(['userId' => $user->userId])
@@ -54,17 +53,11 @@ class UserController extends Controller
                         Yii::$app->getSession()->setFlash('error', 'Upload file error');
                     }
                     $post->saveToDatabase($user->userId, Yii::$app->request->post('Post')['content']);
-                } else if ((\Yii::$app->request->post('CommentForm'))) {
-                    $commentForm->attributes = \Yii::$app->request->post('CommentForm');
-                    if (!($commentForm->validate() && $commentForm->saveComment())) {
-                        Yii::$app->session->setFlash('error', 'cannot add comment');
-                    }
-                    $commentForm->comment = '';
                 } else if (\Yii::$app->request->post('Comment')) {
-                    $comment =
+                    $specificComment =
                         Comment::findOne(['commentId' => \Yii::$app->request->post('Comment')['commentId']]);
-                    $comment->message = \Yii::$app->request->post('Comment')['message'];
-                    $comment->update();
+                    $specificComment->message = \Yii::$app->request->post('Comment')['message'];
+                    $specificComment->update();
                 }
             }
             return $this->render('user', [
@@ -72,7 +65,7 @@ class UserController extends Controller
                 'post' => $post,
                 'dataProvider' => $dataProvider,
                 'commentsProvider' => $commentsProvider,
-                'commentForm' => $commentForm
+                'comment' => $comment
             ]);
         }
         Yii::$app->session->setFlash('error', 'incorrect user id');
@@ -81,18 +74,12 @@ class UserController extends Controller
 
     public function actionArticles()
     {
-        $commentForm = new CommentForm();
+        $comment = new comment();
         if (\Yii::$app->request->post('Comment')) {
-            $comment =
+            $specificComment =
                 Comment::findOne(['commentId' => \Yii::$app->request->post('Comment')['commentId']]);
-            $comment->message = \Yii::$app->request->post('Comment')['message'];
-            $comment->update();
-        } else if ((\Yii::$app->request->post('CommentForm'))) {
-            $commentForm->attributes = \Yii::$app->request->post('CommentForm');
-            if (!($commentForm->validate() && $commentForm->saveComment())) {
-                Yii::$app->session->setFlash('error', 'cannot add comment');
-            }
-            $commentForm->comment = '';
+            $specificComment->message = \Yii::$app->request->post('Comment')['message'];
+            $specificComment->update();
         }
         $commentsProvider = new ActiveDataProvider([
             'query' => (new ActiveQuery(Comment::class))
@@ -113,7 +100,7 @@ class UserController extends Controller
         return $this->render('articles', [
             'dataProvider' => $dataProvider,
             'commentsProvider' => $commentsProvider,
-            'commentForm' => $commentForm
+            'comment' => $comment
         ]);
     }
 }

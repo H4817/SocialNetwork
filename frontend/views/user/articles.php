@@ -7,7 +7,7 @@ use yii\widgets\ListView;
 <?php echo ListView::widget([
     'dataProvider' => $dataProvider,
     'itemView' => '_articles',
-    'viewParams' => ['commentsProvider' => $commentsProvider, 'commentForm' => $commentForm]
+    'viewParams' => ['commentsProvider' => $commentsProvider, 'comment' => $comment]
 ]);
 ?>
 <?php \yii\widgets\Pjax::end(); ?>

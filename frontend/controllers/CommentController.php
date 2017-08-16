@@ -13,10 +13,14 @@ class CommentController extends Controller
         return $this->render('index', ['comments' => $comments]);
     }
 
-    public function actionDelete($id)
+    public function actionCreate()
     {
-        $comment = Comment::findOne(['commentId' => $id]);
-        $comment->delete();
+        $model = new Comment();
+        if ($model->load(\Yii::$app->request->post())) {
+            if (!($model->save())) {
+                \Yii::$app->session->setFlash('error', 'cannot add comment');
+            }
+        }
         return $this->redirect(\Yii::$app->request->referrer);
     }
 
@@ -27,4 +31,12 @@ class CommentController extends Controller
         $comment->update();
         return $this->redirect(\Yii::$app->request->referrer);
     }
+
+    public function actionDelete($id)
+    {
+        $comment = Comment::findOne(['commentId' => $id]);
+        $comment->delete();
+        return $this->redirect(\Yii::$app->request->referrer);
+    }
+
 }
