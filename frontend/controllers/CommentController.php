@@ -24,10 +24,10 @@ class CommentController extends Controller
         return $this->redirect(\Yii::$app->request->referrer);
     }
 
-    public function actionUpdate($id, $message)
+    public function actionUpdate($id)
     {
         $comment = Comment::findOne(['commentId' => $id]);
-        $comment->message = $message;
+        $comment->load(\Yii::$app->request->post());
         $comment->update();
         return $this->redirect(\Yii::$app->request->referrer);
     }

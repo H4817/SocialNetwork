@@ -53,11 +53,6 @@ class UserController extends Controller
                         Yii::$app->getSession()->setFlash('error', 'Upload file error');
                     }
                     $post->saveToDatabase($user->userId, Yii::$app->request->post('Post')['content']);
-                } else if (\Yii::$app->request->post('Comment')) {
-                    $specificComment =
-                        Comment::findOne(['commentId' => \Yii::$app->request->post('Comment')['commentId']]);
-                    $specificComment->message = \Yii::$app->request->post('Comment')['message'];
-                    $specificComment->update();
                 }
             }
             return $this->render('user', [
@@ -75,12 +70,6 @@ class UserController extends Controller
     public function actionArticles()
     {
         $comment = new comment();
-        if (\Yii::$app->request->post('Comment')) {
-            $specificComment =
-                Comment::findOne(['commentId' => \Yii::$app->request->post('Comment')['commentId']]);
-            $specificComment->message = \Yii::$app->request->post('Comment')['message'];
-            $specificComment->update();
-        }
         $commentsProvider = new ActiveDataProvider([
             'query' => (new ActiveQuery(Comment::class))
                 ->from('comment')

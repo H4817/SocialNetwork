@@ -21,7 +21,7 @@ if ($model->postId === $post->postId): ?>
         <div class="panel-body" id="<?= $randomStr ?>"><?= $model->message ?></div>
     </div>
     <?php if (\Yii::$app->user->id === $model->userId): ?>
-        <?php $form = ActiveForm::begin(['options' => ['style' => 'display: none;'], 'id' => $randomStr . 'form']); ?>
+        <?php $form = ActiveForm::begin(['options' => ['style' => 'display: none;'], 'id' => $randomStr . 'form',  'action' => ['comment/update', 'id' => $model->commentId]]); ?>
         <?= $form->field($model, 'message')->textarea(['rows' => 6])->label(false); ?>
         <?= $form->field($model, 'commentId')->hiddenInput(['value' => $model->commentId])->label(false) ?>
         <div class="form-group">
