@@ -9,7 +9,6 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
 use yii\web\Controller;
-use yii\web\UploadedFile;
 
 class UserController extends Controller
 {
@@ -46,15 +45,6 @@ class UserController extends Controller
                 ],
             ]);
             $post = new Post();
-            if (Yii::$app->request->isPost) {
-                if (\Yii::$app->request->post('Post')) {
-                    $post->imageFile = UploadedFile::getInstance($post, 'imageFile');
-                    if (!$post->savePostImage()) {
-                        Yii::$app->getSession()->setFlash('error', 'Upload file error');
-                    }
-                    $post->saveToDatabase($user->userId, Yii::$app->request->post('Post')['content']);
-                }
-            }
             return $this->render('user', [
                 'user' => $user,
                 'post' => $post,

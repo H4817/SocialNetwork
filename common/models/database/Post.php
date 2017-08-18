@@ -28,6 +28,7 @@ class Post extends BasePost
     {
         if (parent::beforeSave($insert)) {
             $this->date = date('Y-m-d H:i:s', time());
+            $this->userId = \Yii::$app->user->id;
             return true;
         }
         return false;
@@ -44,18 +45,5 @@ class Post extends BasePost
         } else {
             return false;
         }
-    }
-
-    public function saveToDatabase($userId, $content)
-    {
-        $this->userId = $userId;
-        $this->imageReference = $this->filename;
-        $this->content = $content;
-        if ($this->save()) {
-            $this->content = '';
-            return true;
-        }
-        $this->content = '';
-        return false;
     }
 }
