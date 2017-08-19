@@ -11,7 +11,8 @@ if (class_exists('yii\debug\Module')) {
 ?>
 
 <?php \yii\widgets\Pjax::begin(['timeout' => 5000]); ?>
-<?php $form = ActiveForm::begin(['options' => ['name' => 'publish', 'id' => 'message-form'], 'action' => ['message/send-message', 'receiverId' => $receiverId]]) ?>
+<?php $form = ActiveForm::begin(['options' => ['name' => 'publish', 'id' => 'message-form'],
+    'action' => ['message/send-message', 'receiverId' => $receiverId]]) ?>
 <?= $form->field($model, 'message')->textarea(['rows' => 6, 'name' => 'message', 'id' => 'msg']); ?>
 <div class="form-group">
     <?= Html::submitButton('<div class="glyphicon glyphicon-send"></div>', ['class' => 'btn btn-primary']); ?>
