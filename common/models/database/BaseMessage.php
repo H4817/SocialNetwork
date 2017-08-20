@@ -2,8 +2,6 @@
 
 namespace common\models\database;
 
-use Yii;
-
 /**
  * This is the model class for table "message".
  *
@@ -35,8 +33,10 @@ class BaseMessage extends \yii\db\ActiveRecord
             [['senderId', 'receiverId'], 'integer'],
             [['date'], 'safe'],
             [['message'], 'string', 'max' => 255],
-            [['receiverId'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['receiverId' => 'userId']],
-            [['senderId'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['senderId' => 'userId']],
+            [['receiverId'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(),
+                'targetAttribute' => ['receiverId' => 'userId']],
+            [['senderId'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(),
+                'targetAttribute' => ['senderId' => 'userId']],
         ];
     }
 

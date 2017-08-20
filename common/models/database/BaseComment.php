@@ -2,8 +2,6 @@
 
 namespace common\models\database;
 
-use Yii;
-
 /**
  * This is the model class for table "comment".
  *
@@ -36,8 +34,10 @@ class BaseComment extends \yii\db\ActiveRecord
             [['postId', 'userId'], 'integer'],
             [['date'], 'safe'],
             [['message', 'name'], 'string', 'max' => 255],
-            [['postId'], 'exist', 'skipOnError' => true, 'targetClass' => Post::className(), 'targetAttribute' => ['postId' => 'postId']],
-            [['userId'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userId' => 'userId']],
+            [['postId'], 'exist', 'skipOnError' => true, 'targetClass' => Post::className(),
+                'targetAttribute' => ['postId' => 'postId']],
+            [['userId'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(),
+                'targetAttribute' => ['userId' => 'userId']],
         ];
     }
 

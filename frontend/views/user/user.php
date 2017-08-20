@@ -14,7 +14,8 @@ $this->title = $user->name;
         <div class="col-lg-5">
             <?php \yii\widgets\Pjax::begin(['timeout' => 5000]); ?>
             <?php $form =
-                ActiveForm::begin(['id' => 'post-form', 'options' => ['enctype' => 'multipart/form-data'], 'action' => ['post/create']]); ?>
+                ActiveForm::begin(['id' => 'post-form', 'options' => ['enctype' => 'multipart/form-data'],
+                    'action' => ['post/create']]); ?>
 
             <?= $form->field($post, 'imageFile')->fileInput() ?>
             <?= $form->field($post, 'content')->textarea(['rows' => 6]); ?>

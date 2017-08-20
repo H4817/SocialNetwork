@@ -21,7 +21,8 @@ if ($model->postId === $post->postId): ?>
         <div class="panel-body" id="<?= $randomStr ?>"><?= $model->message ?></div>
     </div>
     <?php if (\Yii::$app->user->id === $model->userId): ?>
-        <?php $form = ActiveForm::begin(['options' => ['style' => 'display: none;'], 'id' => $randomStr . 'form',  'action' => ['comment/update', 'id' => $model->commentId]]); ?>
+        <?php $form = ActiveForm::begin(['options' => ['style' => 'display: none;'], 'id' => $randomStr . 'form',
+            'action' => ['comment/update', 'id' => $model->commentId]]); ?>
         <?= $form->field($model, 'message')->textarea(['rows' => 6])->label(false); ?>
         <?= $form->field($model, 'commentId')->hiddenInput(['value' => $model->commentId])->label(false) ?>
         <div class="form-group">
@@ -31,11 +32,11 @@ if ($model->postId === $post->postId): ?>
         <script type="text/javascript">
             var commentArea = document.getElementById("<?=$randomStr?>");
 
-            $('body').click(function(evt){
-                if(( evt.target.id === "<?=$randomStr?>" ) || ( evt.target.id === "<?=$randomStr . 'form'?>" )) {
+            $('body').click(function (evt) {
+                if (( evt.target.id === "<?=$randomStr?>" ) || ( evt.target.id === "<?=$randomStr . 'form'?>" )) {
                     return;
                 }
-                if($(evt.target).closest('#<?=$randomStr?>').length || $(evt.target).closest('#<?=$randomStr?>form').length) {
+                if ($(evt.target).closest('#<?=$randomStr?>').length || $(evt.target).closest('#<?=$randomStr?>form').length) {
                     return;
                 }
                 $('#<?=$randomStr?>').show();
