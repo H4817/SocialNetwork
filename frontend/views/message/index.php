@@ -1,13 +1,16 @@
 <?php
+use common\models\database\User;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\ListView;
 
 $this->registerCssFile('css/messages.css');
-$this->registerJsFile('initial.js');
 if (class_exists('yii\debug\Module')) {
     $this->off(\yii\web\View::EVENT_END_BODY, [\yii\debug\Module::getInstance(), 'renderToolbar']);
 }
+$participants = array();
+$participants['sender'] = \Yii::$app->user->identity['name'];
+$participants['receiver'] =  User::findOne(['userId' => $receiverId])['name'];
 ?>
 
 <?php \yii\widgets\Pjax::begin(['timeout' => 5000]); ?>
@@ -23,13 +26,14 @@ if (class_exists('yii\debug\Module')) {
         'dataProvider' => $dataProvider,
         'itemView' => '_messages',
         'summary' => '',
-
+        'viewParams' => ['participants' => $participants]
     ]);
     ?>
 </ul>
 <?php \yii\widgets\Pjax::end(); ?>
 
 <script type="text/javascript">
+    $('.avatar').initial();
     var socket = new WebSocket("ws://localhost:8080");
 
     $('#message-form').on('beforeSubmit', function () {
