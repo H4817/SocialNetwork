@@ -10,10 +10,9 @@ if (class_exists('yii\debug\Module')) {
 }
 $participants = array();
 $participants['sender'] = \Yii::$app->user->identity['name'];
-$participants['receiver'] =  User::findOne(['userId' => $receiverId])['name'];
+$participants['receiver'] = User::findOne(['userId' => $receiverId])['name'];
 ?>
 
-<?php \yii\widgets\Pjax::begin(['timeout' => 5000]); ?>
 <?php $form = ActiveForm::begin(['options' => ['name' => 'publish', 'id' => 'message-form'],
     'action' => ['message/send-message', 'receiverId' => $receiverId]]) ?>
 <?= $form->field($model, 'message')->textarea(['rows' => 6, 'name' => 'message', 'id' => 'msg']); ?>
@@ -22,6 +21,7 @@ $participants['receiver'] =  User::findOne(['userId' => $receiverId])['name'];
 </div>
 <?php $form = ActiveForm::end(); ?>
 <ul id="messages" class="messages">
+    <?php \yii\widgets\Pjax::begin(['timeout' => 5000]); ?>
     <?php echo ListView::widget([
         'dataProvider' => $dataProvider,
         'itemView' => '_messages',
@@ -29,8 +29,8 @@ $participants['receiver'] =  User::findOne(['userId' => $receiverId])['name'];
         'viewParams' => ['participants' => $participants]
     ]);
     ?>
+    <?php \yii\widgets\Pjax::end(); ?>
 </ul>
-<?php \yii\widgets\Pjax::end(); ?>
 
 <script type="text/javascript">
     $('.avatar').initial();

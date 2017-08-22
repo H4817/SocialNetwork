@@ -30,6 +30,7 @@ $this->title = $user->name;
     </div>
 <?php endif; ?>
 
+<?php \yii\widgets\Pjax::begin(['timeout' => 5000]); ?>
 <?php
 echo ListView::widget([
     'dataProvider' => $dataProvider,
@@ -37,3 +38,4 @@ echo ListView::widget([
     'viewParams' => ['commentsProvider' => $commentsProvider, 'comment' => $comment]
 ]);
 ?>
+<?php \yii\widgets\Pjax::end(); ?>

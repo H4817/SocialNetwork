@@ -20,6 +20,7 @@ use yii\widgets\ListView;
         <?php endif ?>
     <?php endif ?>
     <?php if (!\Yii::$app->user->isGuest): ?>
+        <?php \yii\widgets\Pjax::begin(['timeout' => 5000]); ?>
         <?php $form = ActiveForm::begin(['options' => ['class' => 'comment-form'], 'action' => ['comment/create']]); ?>
         <?= $form->field($comment, 'message')->textarea(['rows' => 6]); ?>
         <?= $form->field($comment, 'postId')->hiddenInput(['value' => $model->postId])->label(false) ?>
@@ -27,8 +28,10 @@ use yii\widgets\ListView;
             <?= Html::submitButton('Send', ['class' => 'btn btn-primary']); ?>
         </div>
         <?php $form = ActiveForm::end(); ?>
+        <?php \yii\widgets\Pjax::end(); ?>
     <?php endif ?>
 
+    <?php \yii\widgets\Pjax::begin(['timeout' => 5000]); ?>
     <?php
     echo ListView::widget([
         'dataProvider' => $commentsProvider,
@@ -37,4 +40,5 @@ use yii\widgets\ListView;
         'summary' => ''
     ]);
     ?>
+    <?php \yii\widgets\Pjax::end(); ?>
 </div> <br> <br>
