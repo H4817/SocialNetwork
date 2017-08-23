@@ -88,14 +88,16 @@ class PostController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->postId]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->savePostImage()) {
+                $model->imageReference = $model->filename;
+                if (!$model->update()) {
+                    \Yii::$app->session->setFlash('error', 'cannot update post');
+                }
+            }
         }
+        return $this->redirect(\Yii::$app->request->referrer);
     }
 
     /**
