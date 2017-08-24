@@ -2,8 +2,10 @@
 
 namespace common\models\database;
 
+use Yii;
+
 /**
- * This is the model class for table "passwordrecovery".
+ * This is the model class for table "passwordRecovery".
  *
  * @property integer $passwordRecoveryId
  * @property integer $userId
@@ -31,8 +33,7 @@ class BasePasswordRecovery extends \yii\db\ActiveRecord
             [['userId'], 'integer'],
             [['date'], 'safe'],
             [['token'], 'string', 'max' => 255],
-            [['userId'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(),
-                'targetAttribute' => ['userId' => 'userId']],
+            [['userId'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userId' => 'userId']],
         ];
     }
 

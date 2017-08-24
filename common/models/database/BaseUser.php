@@ -2,6 +2,8 @@
 
 namespace common\models\database;
 
+use Yii;
+
 /**
  * This is the model class for table "user".
  *
@@ -10,7 +12,11 @@ namespace common\models\database;
  * @property string $passwordHash
  * @property string $name
  *
- * @property Passwordrecovery[] $passwordrecoveries
+ * @property Comment[] $comments
+ * @property Message[] $messages
+ * @property Message[] $messages0
+ * @property PasswordRecovery[] $passwordRecoveries
+ * @property Post[] $posts
  */
 class BaseUser extends \yii\db\ActiveRecord
 {
@@ -48,8 +54,40 @@ class BaseUser extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPasswordrecoveries()
+    public function getComments()
     {
-        return $this->hasMany(Passwordrecovery::className(), ['userId' => 'userId']);
+        return $this->hasMany(Comment::className(), ['userId' => 'userId']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMessages()
+    {
+        return $this->hasMany(Message::className(), ['receiverId' => 'userId']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMessages0()
+    {
+        return $this->hasMany(Message::className(), ['senderId' => 'userId']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPasswordRecoveries()
+    {
+        return $this->hasMany(PasswordRecovery::className(), ['userId' => 'userId']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPosts()
+    {
+        return $this->hasMany(Post::className(), ['userId' => 'userId']);
     }
 }

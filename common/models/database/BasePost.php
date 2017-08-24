@@ -2,6 +2,8 @@
 
 namespace common\models\database;
 
+use Yii;
+
 /**
  * This is the model class for table "post".
  *
@@ -11,6 +13,7 @@ namespace common\models\database;
  * @property string $imageReference
  * @property string $date
  *
+ * @property Comment[] $comments
  * @property User $user
  */
 class BasePost extends \yii\db\ActiveRecord
@@ -32,8 +35,7 @@ class BasePost extends \yii\db\ActiveRecord
             [['userId'], 'integer'],
             [['date'], 'safe'],
             [['content', 'imageReference'], 'string', 'max' => 255],
-            [['userId'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(),
-                'targetAttribute' => ['userId' => 'userId']],
+            [['userId'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userId' => 'userId']],
         ];
     }
 
@@ -49,6 +51,14 @@ class BasePost extends \yii\db\ActiveRecord
             'imageReference' => 'Image Reference',
             'date' => 'Date',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getComments()
+    {
+        return $this->hasMany(Comment::className(), ['postId' => 'postId']);
     }
 
     /**
