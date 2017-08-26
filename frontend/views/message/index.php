@@ -24,7 +24,7 @@ $participants['receiver'] = User::findOne(['userId' => $receiverId])['name'];
     <?php \yii\widgets\Pjax::begin(['timeout' => 5000]); ?>
     <?php echo ListView::widget([
         'dataProvider' => $dataProvider,
-        'itemView' => '_messages',
+        'itemView' => '_message',
         'summary' => '',
         'viewParams' => ['participants' => $participants]
     ]);

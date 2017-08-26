@@ -22,16 +22,14 @@ class MessageController extends Controller
     {
         $this->redirectGuests($this);
         $model = new Message();
-        $roomId = (\Yii::$app->user->id > $receiverId) ? $receiverId . \Yii::$app->user->id : \Yii::$app->user->id .
-            $receiverId;
-
+        $userId = \Yii::$app->user->id;
+        $roomId = ($userId > $receiverId) ? $receiverId . $userId : $userId . $receiverId;
         $dataProvider = new ActiveDataProvider([
-            'query' => Message::findChatMessages(\Yii::$app->user->id, $receiverId),
+            'query' => Message::findChatMessages($userId, $receiverId),
             'pagination' => [
                 'pageSize' => 0,
             ],
         ]);
-
         $this->layout = 'messaging';
         return $this->render('index', [
             'roomId' => $roomId,
@@ -44,9 +42,9 @@ class MessageController extends Controller
     public function actionSendMessage($receiverId)
     {
         $model = new Message();
-
+        $userId = \Yii::$app->user->id;
         if (!empty(\Yii::$app->request->post()['message'])) {
-            $model->load(array(\Yii::$app->user->id, $receiverId, \Yii::$app->request->post()['message']));
+            $model->load(array($userId, $receiverId, \Yii::$app->request->post()['message']));
         }
         return $this->redirect(\Yii::$app->request->referrer);
     }

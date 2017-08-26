@@ -74,7 +74,7 @@ $randomStr = \Yii::$app->security->generateRandomString();
     <?php
     echo ListView::widget([
         'dataProvider' => $commentsProvider,
-        'itemView' => '_comments',
+        'itemView' => '_comment',
         'viewParams' => ['post' => $model],
         'summary' => ''
     ]);

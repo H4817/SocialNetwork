@@ -31,17 +31,14 @@ class UserController extends Controller
             return $this->goHome();
         }
         $commentsProvider = new ActiveDataProvider([
-            'query' => (Comment::find()
-                ->orderBy('commentId')),
+            'query' => Comment::find()->orderBy('commentId'),
             'pagination' => [
                 'pageSize' => 0,
             ],
         ]);
         $comment = new Comment();
         $dataProvider = new ActiveDataProvider([
-            'query' => (Post::find()
-                ->where(['userId' => $user->userId])
-                ->orderBy('userId')),
+            'query' => Post::find()->where(['userId' => $user->userId])->orderBy('userId'),
             'pagination' => [
                 'pageSize' => 0,
             ],

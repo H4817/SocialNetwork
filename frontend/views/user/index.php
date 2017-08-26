@@ -3,7 +3,7 @@ use yii\widgets\ListView;
 
 echo ListView::widget([
     'dataProvider' => $dataProvider,
-    'itemView' => '_users',
+    'itemView' => '_user',
 ]);
 
 

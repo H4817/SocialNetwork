@@ -6,7 +6,7 @@ use yii\widgets\ListView;
 <?php \yii\widgets\Pjax::begin(['timeout' => 5000]); ?>
 <?php echo ListView::widget([
     'dataProvider' => $dataProvider,
-    'itemView' => '_articles',
+    'itemView' => '_article',
     'viewParams' => ['commentsProvider' => $commentsProvider, 'comment' => $comment]
 ]);
 ?>
