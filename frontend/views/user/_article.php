@@ -60,11 +60,11 @@ use yii\widgets\ListView;
     <script type="text/javascript">
         $(".post-item .edit-post-button").click(function () {
             $(this).closest('.post').hide();
-            $(this).parent('.post').parent('.post-item').find('.post-form').show();
+            $(this).closest('.post-item').find('.post-form').show();
         });
         $(".post-form .cancel-button").click(function () {
             $(this).closest('.post-form').hide();
-            $(this).closest('.form-group').closest('.post-form').closest('.post-item').children('.post').show();
+            $(this).closest('.post-item').children('.post').show();
         });
     </script>
 
