@@ -14,11 +14,8 @@ class UserController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => (User::find()
-                ->orderBy('userId')),
-            'pagination' => [
-                'pageSize' => 0,
-            ],
+            'query' => User::find()->orderBy('userId'),
+            'pagination' => ['pageSize' => 0],
         ]);
         return $this->render('index', ['dataProvider' => $dataProvider]);
     }
@@ -32,16 +29,12 @@ class UserController extends Controller
         }
         $commentsProvider = new ActiveDataProvider([
             'query' => Comment::find()->orderBy('commentId'),
-            'pagination' => [
-                'pageSize' => 0,
-            ],
+            'pagination' => ['pageSize' => 0],
         ]);
         $comment = new Comment();
         $dataProvider = new ActiveDataProvider([
             'query' => Post::find()->where(['userId' => $user->userId])->orderBy('userId'),
-            'pagination' => [
-                'pageSize' => 0,
-            ],
+            'pagination' => ['pageSize' => 0],
         ]);
         $post = new Post();
         return $this->render('user', [
@@ -58,18 +51,12 @@ class UserController extends Controller
     {
         $comment = new Comment();
         $commentsProvider = new ActiveDataProvider([
-            'query' => (Comment::find()
-                ->orderBy('commentId')),
-            'pagination' => [
-                'pageSize' => 0,
-            ],
+            'query' => Comment::find()->orderBy('commentId'),
+            'pagination' => ['pageSize' => 0],
         ]);
         $dataProvider = new ActiveDataProvider([
-            'query' => (Post::find()
-                ->orderBy('userId')),
-            'pagination' => [
-                'pageSize' => 3,
-            ],
+            'query' => Post::find()->orderBy('userId'),
+            'pagination' => ['pageSize' => 3],
         ]);
         return $this->render('articles', [
             'dataProvider' => $dataProvider,

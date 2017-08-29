@@ -57,16 +57,6 @@ use yii\widgets\ListView;
         </div>
 
     </div>
-    <script type="text/javascript">
-        $(".post-item .edit-post-button").click(function () {
-            $(this).closest('.post').hide();
-            $(this).closest('.post-item').find('.post-form').show();
-        });
-        $(".post-form .cancel-button").click(function () {
-            $(this).closest('.post-form').hide();
-            $(this).closest('.post-item').children('.post').show();
-        });
-    </script>
 
     <?php \yii\widgets\Pjax::begin(['timeout' => 5000]); ?>
     <?php

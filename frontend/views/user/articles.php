@@ -1,6 +1,8 @@
 <?php
 use yii\widgets\ListView;
 
+$this->registerJsFile('js/article.js', ['position' => yii\web\View::POS_END]);
+$this->registerJsFile('js/comment.js', ['position' => yii\web\View::POS_END]);
 ?>
 
 <?php \yii\widgets\Pjax::begin(['timeout' => 5000]); ?>

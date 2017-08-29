@@ -29,19 +29,6 @@ if ($model->postId === $post->postId): ?>
                 <?= Html::submitButton('Confirm', ['class' => 'btn btn-primary']); ?>
             </div>
         <?php $form = ActiveForm::end(); ?>
-            <script type="text/javascript">
-                $('body').click(function (evt) {
-                    var container = $('.panel-body');
-                    if (!container.is(evt.target) && (container.has(evt.target).length === 0 && $('.comment-form').has(evt.target).length === 0)) {
-                        $(this).find('.comment-container').children('.comment-form').hide();
-                        $(this).find(container).show();
-                    }
-                });
-                $(".panel-body").click(function () {
-                    $(this).hide();
-                    $(this).closest('.comment-container').children('.comment-form').show();
-                });
-            </script>
         <?php endif ?>
     </div>
 <?php endif ?>

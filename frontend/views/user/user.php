@@ -5,6 +5,9 @@ use yii\widgets\ListView;
 
 $this->title = $user->name;
 
+$this->registerJsFile('js/article.js', ['position' => yii\web\View::POS_END]);
+$this->registerJsFile('js/comment.js', ['position' => yii\web\View::POS_END]);
+
 ?>
 
 <?php if (\Yii::$app->user->id === $user->userId) : ?>
