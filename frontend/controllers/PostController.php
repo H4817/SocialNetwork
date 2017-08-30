@@ -59,6 +59,20 @@ class PostController extends Controller
     }
 
     /**
+     * @param Post $model
+     */
+    public function actionSave($model)
+    {
+        $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+        if (!empty($model->imageFile) && $model->savePostImage()) {
+            $model->imageReference = $model->filename;
+        }
+        if (!$model->save()) {
+            \Yii::$app->session->setFlash('error', 'cannot update post');
+        }
+    }
+
+    /**
      * Creates a new Post model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -66,15 +80,8 @@ class PostController extends Controller
     public function actionCreate()
     {
         $model = new Post();
-
         if ($model->load(Yii::$app->request->post())) {
-            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            if ($model->savePostImage()) {
-                $model->imageReference = $model->filename;
-                if (!$model->save()) {
-                    Yii::$app->getSession()->setFlash('error', 'error: cannot add new post');
-                }
-            }
+            $this->actionSave($model);
         }
         return $this->redirect(\Yii::$app->request->referrer);
     }
@@ -89,13 +96,7 @@ class PostController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post())) {
-            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            if (!empty($model->imageFile) && $model->savePostImage()) {
-                $model->imageReference = $model->filename;
-            }
-            if (!$model->save()) {
-                \Yii::$app->session->setFlash('error', 'cannot update post');
-            }
+            $this->actionSave($model);
         }
         return $this->redirect(\Yii::$app->request->referrer);
     }
