@@ -9,7 +9,8 @@ use yii\widgets\ListView;
         <div class="post">
 
             <?= $model->content ?> <br> <br>
-            <img src="../../common/uploads/<?= $model->imageReference ?>" alt="err" class="img-responsive"> <br>
+            <?= Html::img('uploads/postImages/' . date('Y-m-d') . '/' . $model->imageReference,
+                ['alt' => 'err', 'class' => 'img-responsive']) ?> <br>
             <?= $model->date ?>
             <?php if (!\Yii::$app->user->isGuest): ?>
                 <?php if (Yii::$app->user->id === $model->userId): ?>

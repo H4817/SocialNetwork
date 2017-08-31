@@ -2,6 +2,7 @@
 
 namespace common\models\database;
 
+use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
 /**
@@ -34,12 +35,27 @@ class Post extends BasePost
         return false;
     }
 
+    public function createDirsIfDoesNotExist()
+    {
+        if (!file_exists(\Yii::getAlias('@frontend') . '/web/uploads')) {
+            FileHelper::createDirectory(\Yii::getAlias('@frontend') . '/web/uploads');
+        }
+        if (!file_exists(\Yii::getAlias('@frontend') . '/web/uploads/postImages')) {
+            FileHelper::createDirectory(\Yii::getAlias('@frontend') . '/web/uploads/postImages');
+        }
+        if (!file_exists(\Yii::getAlias('@frontend') . '/web/uploads/postImages/' . date('Y-m-d'))) {
+            FileHelper::createDirectory(\Yii::getAlias('@frontend') . '/web/uploads/postImages/' . date('Y-m-d'));
+        }
+    }
+
 
     public function savePostImage()
     {
         if ($this->validate()) {
             $this->filename = strtolower(md5(uniqid($this->imageFile->baseName))) . '.' . $this->imageFile->extension;
-            $this->path = \Yii::getAlias('@common') . '/uploads/' . $this->filename;
+            $this->path = \Yii::getAlias('@frontend') . '/web/uploads/postImages/'
+                . date('Y-m-d') . '/' . $this->filename;
+            $this->createDirsIfDoesNotExist();
             $this->imageFile->saveAs($this->path);
             return true;
         } else {
