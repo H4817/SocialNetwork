@@ -2,8 +2,6 @@
 
 namespace common\models\database;
 
-use Yii;
-
 /**
  * This is the model class for table "post".
  *
@@ -35,7 +33,8 @@ class BasePost extends \yii\db\ActiveRecord
             [['userId'], 'integer'],
             [['date'], 'safe'],
             [['content', 'imageReference'], 'string', 'max' => 255],
-            [['userId'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userId' => 'userId']],
+            [['userId'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(),
+                'targetAttribute' => ['userId' => 'userId']],
         ];
     }
 

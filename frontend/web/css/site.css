@@ -139,3 +139,7 @@ a.desc:after {
 .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
     background-color: #5b7a9e;
 }
+
+.post-text-input-field {
+    min-width: 249%;
+}

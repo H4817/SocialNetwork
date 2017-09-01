@@ -21,7 +21,7 @@ $this->registerJsFile('js/comment.js', ['position' => yii\web\View::POS_END]);
                     'action' => ['post/create']]); ?>
 
             <?= $form->field($post, 'imageFile')->fileInput() ?>
-            <?= $form->field($post, 'content')->textarea(['rows' => 6]); ?>
+            <?= $form->field($post, 'content')->textarea(['rows' => 6, 'class' => 'post-text-input-field form-control']); ?>
 
             <div class="form-group">
                 <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']); ?>
